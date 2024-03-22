@@ -21,6 +21,11 @@ Users can create accounts by providing necessary details and select their user t
 
 ## Usage
 [Explain how to use the project, including any specific commands, configurations, or workflows.]
-
+The use cases of the FWRP are as follows:
+1. **User Registration and Login**: Registration involves the actors (consumers, charitable organizations, and retailers) creating an account in the system. Login involves users baing authenticated into the system and authorized to perform use cases according to their roles.
+2. **Retailer Inventory Management** Retailers manage (adds, updates, deletes) food items in the inventory through the system. System flags surplus items 7 days before their expiry date and retailers can choose whether to donate them to charitable organizations or to discount them for consumer purchase.
+3. **Notification Management** Consumers and charitable organizations receive notification they had signed up for regarding their food preference in surplus within city. Notifications are available either by phone or by email.
+4. **Food Item Reception** Customers can purchase surplus food from retailers, whereas and charitable organizations can claim them. 
+5. **Food Waste Report Management** Retailers can manage excess inventory by obtaining access to and exporting food waste information reports from the system.
 
 # Food-Waste-Reduction-Platform
