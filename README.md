@@ -10,11 +10,11 @@ The Food Waste Reduction Platform (FWRP) targets the global food waste issue thr
 Retailers can list surplus food items for donation or sale at a discounted price.
 3. **User-Friendly Interface**: Create a user-friendly interface that allows  food sellers, customers, and charitable organizations, to communicate easily. Charitable organizations can claim food items listed by retailers for donation. Upon claiming, the retailer's inventory is updated accordingly. Consumers can "purchase" items listed by retailers at a given discount rate (simulated transaction).
 Upon purchase, the retailer's inventory is updated accordingly.
-5. **Notification Settings**:Users can subscribe to receive alerts based on their preferences.
+4. **Food Waste Report Generation** Users can view and export reports to manage surplus food inventory within specified date ranges.
+5. **Notification Settings (Bonus Functionality)**:Users can subscribe to receive alerts based on their preferences.
 Automatic notifications are sent to subscribed users whenever surplus food items are listed.
 Users can create accounts by providing necessary details and select their user type.
 
-6. **Food Waste Report Generation** Users can view and export reports to manage surplus food inventory within specified date ranges.
 
 ## Installation
 [Provide instructions on how to install and set up the project for development or deployment.]
