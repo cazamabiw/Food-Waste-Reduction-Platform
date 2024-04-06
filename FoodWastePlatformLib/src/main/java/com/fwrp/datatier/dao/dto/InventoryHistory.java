@@ -11,7 +11,7 @@ package com.fwrp.datatier.dao.dto;
 import java.util.Date;
 
 public class InventoryHistory {
-    private int id;
+    private int historyId;
     private long inventoryId;
     private long recipientRoleId;
     private long recipientId;
@@ -19,12 +19,12 @@ public class InventoryHistory {
     private Date dateModified;
 
     // Getters and Setters
-    public long getId() {
-        return id;
+    public long getHistoryId() {
+        return historyId;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setHistoryId(int historyId) {
+        this.historyId = historyId;
     }
 
     public long getInventoryId() {
