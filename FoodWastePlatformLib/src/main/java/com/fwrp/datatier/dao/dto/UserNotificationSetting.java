@@ -4,10 +4,6 @@
  */
 package com.fwrp.datatier.dao.dto;
 
-/**
- *
- * @author cazam
- */
 public class UserNotificationSetting {
     private int userId;
     private boolean isEmail;
