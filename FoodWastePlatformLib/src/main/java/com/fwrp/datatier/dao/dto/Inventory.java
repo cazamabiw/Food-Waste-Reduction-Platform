@@ -4,14 +4,10 @@
  */
 package com.fwrp.datatier.dao.dto;
 
-/**
- *
- * @author cazam
- */
 import java.util.Date;
 
 public class Inventory {
-    private int id;
+    private int inventoryId;
     private int userId;
     private int foodItemId;
     private Date expirationDate;
@@ -23,12 +19,12 @@ public class Inventory {
     private Date lastUpdated;
 
     // Getters and Setters
-    public long getId() {
-        return id;
+    public long getInventoryId() {
+        return inventoryId;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setInventoryId(int id) {
+        this.inventoryId = inventoryId;
     }
 
     public long getUserId() {
