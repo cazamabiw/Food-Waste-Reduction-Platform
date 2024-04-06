@@ -6,10 +6,6 @@ package com.fwrp.datatier.dao.dto;
 
 import java.util.Date;
 
-/**
- *
- * @author cazam
- */
 public class User {
     private int userId;
     private String firstName;
