@@ -4,10 +4,6 @@
  */
 package com.fwrp.datatier.dao.dto;
 
-/**
- *
- * @author cazam
- */
 public class Role {
     private int roleId;
     private String roleName;
