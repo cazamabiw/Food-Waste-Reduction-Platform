@@ -4,10 +4,6 @@
  */
 package com.fwrp.datatier.dao.dto;
 
-/**
- *
- * @author cazam
- */
 import java.util.Date;
 
 public class InventoryHistory {
