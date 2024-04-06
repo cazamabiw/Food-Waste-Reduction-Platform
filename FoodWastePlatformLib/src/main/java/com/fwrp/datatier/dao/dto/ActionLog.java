@@ -4,26 +4,22 @@
  */
 package com.fwrp.datatier.dao.dto;
 
-/**
- *
- * @author cazam
- */
 import java.util.Date;
 
 public class ActionLog {
 
-    private int id;
+    private int logId;
     private int userId;
     private String userAction;
     private Date actionDate;
 
     // Getters and Setters
-    public long getId() {
-        return id;
+    public int getLogId() {
+        return logId;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setLogId(int logId) {
+        this.logId = logId;
     }
 
     public long getUserId() {
