@@ -4,10 +4,6 @@
  */
 package com.fwrp.datatier.dao.dto;
 
-/**
- *
- * @author cazam
- */
 public class FoodStatus {
     private int foodStatusId;
     private String foodStatus;
