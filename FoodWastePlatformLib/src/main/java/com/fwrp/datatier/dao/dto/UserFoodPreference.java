@@ -4,10 +4,6 @@
  */
 package com.fwrp.datatier.dao.dto;
 
-/**
- *
- * @author cazam
- */
 public class UserFoodPreference {
     private int userId;
     private long foodItemId;
