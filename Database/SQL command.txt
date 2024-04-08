@@ -1,0 +1,177 @@
+DROP DATABASE IF EXISTS FWRP;
+CREATE DATABASE FWRP;
+USE FWRP;
+
+CREATE TABLE users (
+user_id INT AUTO_INCREMENT PRIMARY KEY,
+first_name VARCHAR(50) NOT NULL,
+last_name VARCHAR(50) NOT NULL,
+email VARCHAR(100) NOT NULL,
+user_password VARCHAR(100) NOT NULL, -- hash the password
+address_line VARCHAR(80),
+city VARCHAR(50),
+province VARCHAR(50),
+postal_code VARCHAR(20),
+is_notified BOOLEAN NOT NULL,
+last_updated DATETIME NOT NULL
+);
+
+CREATE TABLE retailers (
+    user_id INT NOT NULL,
+    FOREIGN KEY (user_id) REFERENCES users(user_id),
+    store_name VARCHAR(50) NOT NULL,
+    contact_person VARCHAR(50) NOT NULL
+);
+
+CREATE TABLE consumers  (
+user_id INT NOT NULL,
+FOREIGN KEY (user_id) REFERENCES users(user_id),
+shipping_address VARCHAR(50) NOT NULL,
+payment_method VARCHAR(50)
+);
+
+CREATE TABLE charitable_organizations  (
+user_id INT NOT NULL,
+FOREIGN KEY (user_id) REFERENCES users(user_id),
+organization_name VARCHAR(50) NOT NULL
+);
+
+CREATE TABLE roles (
+role_id INT AUTO_INCREMENT PRIMARY KEY,
+role_name VARCHAR(50) NOT NULL
+);
+    
+CREATE TABLE user_roles (
+user_id INT NOT NULL,
+role_id INT NOT NULL,
+PRIMARY KEY (user_id, role_id),
+FOREIGN KEY (user_id) REFERENCES users(user_id),
+FOREIGN KEY (role_id) REFERENCES roles(role_id)
+);
+
+CREATE TABLE food_statuses (
+food_status_id INT AUTO_INCREMENT PRIMARY KEY,
+food_status VARCHAR(30) NOT NULL
+);
+
+CREATE TABLE food_items (
+food_item_id  INT AUTO_INCREMENT PRIMARY KEY,
+item_name VARCHAR(30)  NOT NULL,
+item_description VARCHAR(50) 
+);
+
+CREATE TABLE user_food_preferences (
+user_id INT NOT NULL,
+food_item_id INT NOT NULL,
+PRIMARY KEY(user_id,food_item_id),
+FOREIGN KEY (user_id) REFERENCES users(user_id),
+FOREIGN KEY (food_item_id) REFERENCES food_items(food_item_id)
+);
+
+CREATE TABLE inventory (
+id INT AUTO_INCREMENT PRIMARY KEY,
+user_id INT NOT NULL,
+food_item_id INT NOT NULL,
+expiration_date DATE NOT NULL,
+quantity INT NOT NULL,
+price DECIMAL(10,2) NOT NULL,
+food_status_id INT NOT NULL,
+discounted_price DECIMAL(10,2),
+is_surplus BOOLEAN,
+last_updated DATETIME NOT NULL,
+FOREIGN KEY (user_id) REFERENCES users(user_id),
+FOREIGN KEY (food_item_id) REFERENCES food_items(food_item_id),
+FOREIGN KEY (food_status_id) REFERENCES food_statuses(food_status_id)
+);
+  
+CREATE TABLE user_notfication_settings (
+user_id INT NOT NULL,
+FOREIGN KEY (user_id) REFERENCES users(user_id),
+is_email BOOLEAN NOT NULL,
+is_phone BOOLEAN NOT NULL
+); 
+  
+CREATE TABLE inventory_history (
+id INT AUTO_INCREMENT PRIMARY KEY,
+inventory_id INT NOT NULL,
+recipient_role_id INT NOT NULL,
+recipient_id INT NOT NULL,
+quantity INT NOT NULL, 
+date_modified DATETIME NOT NULL,
+FOREIGN KEY (inventory_id) REFERENCES inventory(id),
+FOREIGN KEY (recipient_role_id) REFERENCES roles(role_id),
+FOREIGN KEY (recipient_id) REFERENCES users(user_id)
+);
+
+CREATE TABLE action_logs (
+user_id INT NOT NULL,
+user_action VARCHAR(30), 
+action_date DATETIME,
+FOREIGN KEY (user_id) REFERENCES users(user_id)
+);
+
+-- insert information
+INSERT INTO fwrp.roles (role_name) VALUES ('retailer');
+INSERT INTO fwrp.roles (role_name) VALUES ('consumer');
+INSERT INTO fwrp.roles (role_name) VALUES ('charitable_organization');
+
+
+INSERT INTO fwrp.food_items (item_name, item_description) VALUES
+('Apple', 'Fresh, organic red apples'),
+('Bread', 'Whole wheat bread loaf'),
+('Milk', '1 liter of skimmed milk'),
+('Yogurt', 'Greek yogurt, 500g'),
+('Chicken', 'Boneless, skinless chicken breast'),
+('Rice', 'Basmati rice, 1kg bag');
+
+INSERT INTO fwrp.food_statuses (food_status_id, food_status) VALUES
+(1, 'Fresh'),
+(2, 'Expiring Soon'),
+(3, 'Expired');
+
+
+-- Insert users with corresponding roles
+-- Retailer (retailer no notification setting)
+INSERT INTO users (first_name, last_name, email, user_password, is_notified, last_updated) VALUES
+('John', 'Doe', 'john@example.com', 'hashed_password', true, NOW());
+
+INSERT INTO retailers (user_id, store_name, contact_person) VALUES
+(LAST_INSERT_ID(), 'Doe Grocery Store', 'Jane Doe');
+
+INSERT INTO user_roles (user_id, role_id) 
+SELECT u.user_id, r.role_id
+FROM users u
+JOIN roles r ON r.role_name = 'retailer'
+WHERE u.email = 'john@example.com';
+
+-- Consumer
+INSERT INTO users (first_name, last_name, email, user_password, is_notified, last_updated) VALUES
+('Alice', 'Smith', 'alice@example.com', 'hashed_password', true, NOW());
+
+INSERT INTO consumers (user_id, shipping_address, payment_method) VALUES
+(LAST_INSERT_ID(), '123 Main St', 'Credit Card');
+
+INSERT INTO user_notfication_settings (user_id, is_email, is_phone) VALUES
+(LAST_INSERT_ID(), true, true);
+
+INSERT INTO user_roles (user_id, role_id) 
+SELECT u.user_id, r.role_id
+FROM users u
+JOIN roles r ON r.role_name = 'consumer'
+WHERE u.email = 'alice@example.com';
+
+-- Charitable Organization
+INSERT INTO users (first_name, last_name, email, user_password, is_notified, last_updated) VALUES
+('Bob', 'Johnson', 'bob@example.com', 'hashed_password', true, NOW());
+
+INSERT INTO charitable_organizations (user_id, organization_name) VALUES
+(LAST_INSERT_ID(), 'Food Bank');
+
+INSERT INTO user_notfication_settings (user_id, is_email, is_phone) VALUES
+(LAST_INSERT_ID(), false, true);
+
+INSERT INTO user_roles (user_id, role_id) 
+SELECT u.user_id, r.role_id
+FROM users u
+JOIN roles r ON r.role_name = 'charitable_organization'
+WHERE u.email = 'bob@example.com';
