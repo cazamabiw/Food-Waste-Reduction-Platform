@@ -16,9 +16,6 @@ Automatic notifications are sent to subscribed users whenever surplus food items
 Users can create accounts by providing necessary details and select their user type.
 
 
-## Installation
-[Provide instructions on how to install and set up the project for development or deployment.]
-
 ## Usage
 [Explain how to use the project, including any specific commands, configurations, or workflows.]
 The use cases of the FWRP are as follows:
