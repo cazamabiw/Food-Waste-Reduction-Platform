@@ -94,12 +94,11 @@ is_phone BOOLEAN NOT NULL
 CREATE TABLE inventory_history (
 id INT AUTO_INCREMENT PRIMARY KEY,
 inventory_id INT NOT NULL,
-recipient_role_id INT NOT NULL,
 recipient_id INT NOT NULL,
-quantity INT NOT NULL, 
+quantity INT NOT NULL,
+action VARCHAR(30), 
 date_modified DATETIME NOT NULL,
 FOREIGN KEY (inventory_id) REFERENCES inventory(id),
-FOREIGN KEY (recipient_role_id) REFERENCES roles(role_id),
 FOREIGN KEY (recipient_id) REFERENCES users(user_id)
 );
 
