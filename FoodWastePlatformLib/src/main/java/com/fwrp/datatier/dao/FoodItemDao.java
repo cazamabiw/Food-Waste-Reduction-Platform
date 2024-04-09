@@ -4,7 +4,7 @@
  */
 package com.fwrp.datatier.dao;
 
-import com.fwrp.datatier.dao.dto.FoodItem;
+import com.fwrp.models.FoodItem;
 
 /**
  *
