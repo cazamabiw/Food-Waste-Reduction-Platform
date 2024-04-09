@@ -46,6 +46,7 @@ public class UserDaoImpl implements UserDao {
                         user.setAddressLine(resultSet.getString("address_line"));
                         user.setCity(resultSet.getString("city"));
                         user.setProvince(resultSet.getString("province"));
+                         user.setPhoneNumber(resultSet.getString("phone_number"));
                         user.setPostalCode(resultSet.getString("postal_code"));
                         user.setIsNotified(resultSet.getBoolean("is_notified"));
                         user.setLastUpdated(resultSet.getDate("last_updated"));
