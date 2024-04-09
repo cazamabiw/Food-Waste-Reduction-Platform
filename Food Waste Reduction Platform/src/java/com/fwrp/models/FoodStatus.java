@@ -6,7 +6,7 @@ package com.fwrp.models;
 
 /**
  *
- * @author cazam
+ * @author beyul
  */
 public class FoodStatus {
     private int foodStatusId;
