@@ -175,3 +175,32 @@ SELECT u.user_id, r.role_id
 FROM users u
 JOIN roles r ON r.role_name = 'charitable_organization'
 WHERE u.email = 'bob@example.com';
+
+-- insert inventory and inventory_history 
+-- Insert inventory records for Retailer (user_id = 1)
+INSERT INTO inventory (user_id, food_item_id, expiration_date, quantity, price, food_status_id, discounted_price, is_surplus, last_updated)
+VALUES (1, 1, '2024-04-30', 100, 2.99, 1, 1.10, true, NOW()),
+       (1, 2, '2024-05-05', 50, 1.99, 1, 0.50, true, NOW()),
+       (1, 3, '2024-05-10', 200, 3.49, 1, 2.00, true, NOW()),
+	   (1, 4, '2024-05-10', 200, 3.49, 1, NULL, false, NOW()),
+       (1, 5, '2024-05-10', 200, 3.49, 1, NULL, false, NOW()); 
+
+-- Insert inventory history records for Retailer (user_id = 1)
+INSERT INTO inventory_history (inventory_id, recipient_id, quantity, action, date_modified)
+VALUES (1, 1, 20, 'Quantity Change', NOW()),
+       (2, 1, 10, 'Quantity Change', NOW()),
+       (3, 1, 50, 'Quantity Change', NOW()),
+       (1, 1, 30, 'Quantity Change', NOW()),
+       (1, 1, NULL, 'Set Surplus', NOW());
+       
+       -- Insert inventory history records for Consumer (user_id = 2)
+INSERT INTO inventory_history (inventory_id, recipient_id, quantity, action, date_modified)
+VALUES (1, 2, 10, 'Purchase', NOW()),
+       (2, 2, 5, 'Purchase', NOW()),
+       (3, 2, 2, 'Purchase', NOW());
+
+-- Insert inventory history records for Charitable Organization (user_id = 3)
+INSERT INTO inventory_history (inventory_id, recipient_id, quantity, action, date_modified)
+VALUES (1, 3, 3, 'Claim', NOW()),
+       (2, 3, 10, 'Claim', NOW()),
+       (3, 3, 2, 'Claim', NOW());
