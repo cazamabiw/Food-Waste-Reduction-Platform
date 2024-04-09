@@ -19,7 +19,7 @@ public class UserNotificationSetting {
     }
 
     // Getters and Setters
-    public long getUserId() {
+    public int getUserId() {
         return userId;
     }
 
