@@ -3,7 +3,36 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/cp%20level2/Git/FoodWastePlatformLib/Food%20Waste%20Reduction%20Platform/web/index.html</file>
+            <file>file:/C:/GitHub/Food-Waste-Reduction-Platform/Food%20Waste%20Reduction%20Platform/src/java/com/fwrp/datatier/dao/RetailerDao.java</file>
+            <file>file:/C:/GitHub/Food-Waste-Reduction-Platform/Food%20Waste%20Reduction%20Platform/src/java/com/fwrp/models/User.java</file>
+            <file>file:/C:/GitHub/Food-Waste-Reduction-Platform/Food%20Waste%20Reduction%20Platform/src/java/com/fwrp/datatier/dao/FoodStatusDao.java</file>
+            <file>file:/C:/GitHub/Food-Waste-Reduction-Platform/Food%20Waste%20Reduction%20Platform/src/java/com/fwrp/datatier/dto/CurrentRetailerDTO.java</file>
+            <file>file:/C:/GitHub/Food-Waste-Reduction-Platform/Food%20Waste%20Reduction%20Platform/src/java/com/fwrp/datatier/dto/CurrentUserDTO.java</file>
+            <file>file:/C:/GitHub/Food-Waste-Reduction-Platform/Food%20Waste%20Reduction%20Platform/src/java/com/fwrp/datatier/dao/UserRoleDao.java</file>
+            <file>file:/C:/GitHub/Food-Waste-Reduction-Platform/Food%20Waste%20Reduction%20Platform/src/java/com/fwrp/validators/Validator.java</file>
+            <file>file:/C:/GitHub/Food-Waste-Reduction-Platform/Food%20Waste%20Reduction%20Platform/src/java/com/fwrp/validators/ValidatorFactory.java</file>
+            <file>file:/C:/GitHub/Food-Waste-Reduction-Platform/Food%20Waste%20Reduction%20Platform/src/java/com/fwrp/datatier/dao/RoleDao.java</file>
+            <file>file:/C:/GitHub/Food-Waste-Reduction-Platform/Food%20Waste%20Reduction%20Platform/src/java/com/fwrp/models/Role.java</file>
+            <file>file:/C:/GitHub/Food-Waste-Reduction-Platform/Food%20Waste%20Reduction%20Platform/src/java/com/fwrp/datatier/dao/DataSource.java</file>
+            <file>file:/C:/GitHub/Food-Waste-Reduction-Platform/Food%20Waste%20Reduction%20Platform/src/java/com/fwrp/models/UserRole.java</file>
+            <file>file:/C:/GitHub/Food-Waste-Reduction-Platform/Food%20Waste%20Reduction%20Platform/src/java/com/fwrp/models/Retailer.java</file>
+            <file>file:/C:/GitHub/Food-Waste-Reduction-Platform/Food%20Waste%20Reduction%20Platform/src/java/com/fwrp/datatier/dto/CurrentCharitableOrganizationDTO.java</file>
+            <file>file:/C:/GitHub/Food-Waste-Reduction-Platform/Food%20Waste%20Reduction%20Platform/src/java/com/fwrp/validators/UserValidator.java</file>
+            <file>file:/C:/GitHub/Food-Waste-Reduction-Platform/Food%20Waste%20Reduction%20Platform/src/java/com/fwrp/datatier/dao/Dao.java</file>
+            <file>file:/C:/GitHub/Food-Waste-Reduction-Platform/Food%20Waste%20Reduction%20Platform/src/java/com/fwrp/datatier/dao/UserDao.java</file>
+            <file>file:/C:/GitHub/Food-Waste-Reduction-Platform/Food%20Waste%20Reduction%20Platform/src/java/com/fwrp/utilities/LoginResult.java</file>
+            <file>file:/C:/GitHub/Food-Waste-Reduction-Platform/Food%20Waste%20Reduction%20Platform/src/java/com/fwrp/models/CharitableOrganization.java</file>
+            <file>file:/C:/GitHub/Food-Waste-Reduction-Platform/Food%20Waste%20Reduction%20Platform/src/java/com/fwrp/datatier/dao/UserDaoImpl.java</file>
+            <file>file:/C:/GitHub/Food-Waste-Reduction-Platform/Food%20Waste%20Reduction%20Platform/src/java/com/fwrp/validators/ValidationException.java</file>
+            <file>file:/C:/GitHub/Food-Waste-Reduction-Platform/Food%20Waste%20Reduction%20Platform/src/java/com/fwrp/models/ActionLog.java</file>
+            <file>file:/C:/GitHub/Food-Waste-Reduction-Platform/Food%20Waste%20Reduction%20Platform/src/java/com/fwrp/utilities/UserRoleResult.java</file>
+            <file>file:/C:/GitHub/Food-Waste-Reduction-Platform/Food%20Waste%20Reduction%20Platform/src/java/com/fwrp/models/Consumer.java</file>
+            <file>file:/C:/GitHub/Food-Waste-Reduction-Platform/Food%20Waste%20Reduction%20Platform/src/java/com/fwrp/utilities/DateTimeService.java</file>
+            <file>file:/C:/GitHub/Food-Waste-Reduction-Platform/Food%20Waste%20Reduction%20Platform/src/java/com/fwrp/datatier/dao/RoleDaolmpl.java</file>
+            <file>file:/C:/GitHub/Food-Waste-Reduction-Platform/Food%20Waste%20Reduction%20Platform/src/java/com/fwrp/models/FoodItem.java</file>
+            <file>file:/C:/GitHub/Food-Waste-Reduction-Platform/Food%20Waste%20Reduction%20Platform/src/java/com/fwrp/datatier/dao/UserRoleDaoImpl.java</file>
+            <file>file:/C:/GitHub/Food-Waste-Reduction-Platform/Food%20Waste%20Reduction%20Platform/src/java/com/fwrp/datatier/dto/CurrentConsumerDTO.java</file>
+            <file>file:/C:/GitHub/Food-Waste-Reduction-Platform/Food%20Waste%20Reduction%20Platform/src/java/com/fwrp/utilities/PasswordService.java</file>
         </group>
     </open-files>
 </project-private>
