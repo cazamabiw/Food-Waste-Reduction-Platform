@@ -7,6 +7,7 @@ package com.fwrp.user.strategy;
 
 import com.fwrp.datatier.businesslayer.RoleManager;
 import com.fwrp.datatier.businesslayer.UserManager;
+import com.fwrp.datatier.businesslayer.UserSettingManager;
 import com.fwrp.datatier.dto.CurrentCharitableOrganizationDTO;
 import com.fwrp.datatier.dto.CurrentConsumerDTO;
 import com.fwrp.datatier.dto.CurrentUserDTO;
@@ -15,6 +16,7 @@ import com.fwrp.models.CharitableOrganization;
 import com.fwrp.models.Consumer;
 import com.fwrp.models.Role;
 import com.fwrp.models.User;
+import com.fwrp.models.UserNotificationSetting;
 
 import com.fwrp.models.UserRole;
 import com.fwrp.user.builder.CharitableOrganizationBuilder;
@@ -34,14 +36,14 @@ import java.util.Date;
 public class CharitableOrganizationManagementStrategy implements UserManagementStrategy {
    private final UserManager userManager;
    private final RoleManager roleManager;
-      
+       private final UserSettingManager userSettingManager;
     private CharitableOrganizationCreationDTO charitableOrganizationCreationDTO;
   private CurrentCharitableOrganizationDTO currentCharitableOrganizationDTO;
   
-    public CharitableOrganizationManagementStrategy(UserManager userManager , RoleManager roleManager) {
+    public CharitableOrganizationManagementStrategy(UserManager userManager, RoleManager roleManager,UserSettingManager userSettingManager) {
         this.userManager = userManager;
         this.roleManager = roleManager;
-
+        this.userSettingManager = userSettingManager;
     }
 
 
@@ -86,7 +88,9 @@ public class CharitableOrganizationManagementStrategy implements UserManagementS
         user.setOrganizationName(charitableOrganizationCreationDTO.getOrganizationName());
         userManager.createCharitableOrganizationDetail(user);
         
- 
+           //create UserNotificationSetting
+            UserNotificationSetting userNotificationSetting = new UserNotificationSetting(user.getUserId(),false,false); //default false
+            userSettingManager.createUserNotificationSetting(userNotificationSetting);
     }
     }
 

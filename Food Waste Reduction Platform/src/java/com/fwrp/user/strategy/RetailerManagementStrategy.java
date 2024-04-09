@@ -4,15 +4,17 @@
  */
 package com.fwrp.user.strategy;
 
-
+import com.fwrp.datatier.businesslayer.NotificationManager;
 import com.fwrp.datatier.businesslayer.RoleManager;
 import com.fwrp.datatier.businesslayer.UserManager;
+import com.fwrp.datatier.businesslayer.UserSettingManager;
 import com.fwrp.datatier.dto.CurrentRetailerDTO;
 import com.fwrp.datatier.dto.CurrentUserDTO;
 import com.fwrp.datatier.dto.UserCreationDTO;
 import com.fwrp.models.Retailer;
 import com.fwrp.models.Role;
 import com.fwrp.models.User;
+import com.fwrp.models.UserNotificationSetting;
 import com.fwrp.models.UserRole;
 import com.fwrp.user.builder.RetailerBuilder;
 import com.fwrp.user.factory.RetailerCreationDTO;
@@ -26,21 +28,22 @@ import java.util.Date;
 
 /**
  *
- * @author  Sreelakshmi Odatt Venu
+ * @author Sreelakshmi odatt Venu
  */
 public class RetailerManagementStrategy implements UserManagementStrategy {
 
     private final UserManager userManager;
     private final RoleManager roleManager;
-  
+    private final UserSettingManager userSettingManager;
     private RetailerCreationDTO retailerCreationDTO;
     private CurrentRetailerDTO currentRetailerDTO;
 
-    public RetailerManagementStrategy(UserManager userManager, RoleManager roleManager) {
+    public RetailerManagementStrategy(UserManager userManager, RoleManager roleManager,UserSettingManager userSettingManager) {
         this.userManager = userManager;
         this.roleManager = roleManager;
-       
+        this.userSettingManager = userSettingManager;
     }
+
 
 
     @Override
