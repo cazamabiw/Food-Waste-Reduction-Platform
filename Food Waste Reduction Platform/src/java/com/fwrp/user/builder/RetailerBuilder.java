@@ -78,7 +78,11 @@ public class RetailerBuilder {
         retailer.setContactPerson(contactPerson);
         return this;
     }
-
+  public RetailerBuilder withPhoneNumber(String phoneNumber) {
+        retailer.setPhoneNumber(phoneNumber);
+        return this;
+    }
+  
     public Retailer build() {
         return retailer;
     }
