@@ -4,12 +4,11 @@
  */
 package com.fwrp.validators;
 
-import com.fwrp.models.*;
-
 /**
  *
- * @author sreel
+ * @author Jessica Gunawan
+ * @param <T>
  */
-public class test {
-    
+public interface Validator<T> {
+    void validate(T data);
 }
