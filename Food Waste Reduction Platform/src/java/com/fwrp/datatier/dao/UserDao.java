@@ -14,5 +14,7 @@ import java.util.List;
 public interface UserDao extends Dao<User> {
     User getUserByEmail(String email);
    boolean isEmailInUse(String email);
+  
      List<User> getUsersSubscribedToSurplusFoodAlerts();
+
 }

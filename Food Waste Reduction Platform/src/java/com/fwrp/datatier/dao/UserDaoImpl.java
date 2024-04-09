@@ -171,7 +171,7 @@ public User get(int id) {
 
         return emailInUse;
     }
-
+  
    @Override
 public List<User> getUsersSubscribedToSurplusFoodAlerts() {
     List<User> subscribedUsers = new ArrayList<>();
@@ -202,4 +202,5 @@ public List<User> getUsersSubscribedToSurplusFoodAlerts() {
     }
     return subscribedUsers;
 }
+
 }
