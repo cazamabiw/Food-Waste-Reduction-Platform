@@ -9,5 +9,7 @@ package com.fwrp.utilities;
  * @author cazam
  */
 public enum UserType {
-    RETILERS,CONSUMER, CHARITABLE_ORGANIZATION;
+    RETAILER,
+    CONSUMER, 
+    CHARITABLE_ORGANIZATION;
 }

@@ -73,8 +73,11 @@ public class CharitableOrganizationBuilder implements UserBuilder {
     public CharitableOrganizationBuilder withOrganizationName(String organizationName) {
         user.setOrganizationName(organizationName);
         return this;
+    } 
+    public CharitableOrganizationBuilder withPhoneNumber(String phoneNumber){
+        user.setPhoneNumber(phoneNumber);
+        return this ;
     }
-
     @Override
     public CharitableOrganization build() {
         // Optionally perform any additional checks or operations before returning the user

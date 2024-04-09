@@ -19,6 +19,7 @@ public class CurrentUserDTO {
     private String addressLine;
     private String city;
     private String province;
+   private String phoneNumber;
     private String postalCode;
     private UserType roleName;
     
@@ -98,5 +99,13 @@ public class CurrentUserDTO {
 
     public void setRoleName(UserType roleName) {
         this.roleName = roleName;
+    }
+    
+       public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
     }
 }
