@@ -6,7 +6,7 @@ package com.fwrp.utilities;
 
 /**
  *
- * @author jessica Gunawan
+ * @author Jessica Gunawan
  */
 public class UserRoleResult {
      private int userId;
