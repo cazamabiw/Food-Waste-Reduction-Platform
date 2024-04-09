@@ -9,7 +9,7 @@ import java.security.NoSuchAlgorithmException;
 
 /**
  *
- * @author jessica Gunawan
+ * @author Jessica Gunawan
  */
 public class PasswordService {
    // Utility class, private constructor to prevent instantiation
