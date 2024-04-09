@@ -22,6 +22,7 @@ public class User {
     private String postalCode;
     private boolean notified;
     private Date lastUpdated;
+     private String phoneNumber;
 
     // Getters and Setters
     public int getUserId() {
@@ -111,5 +112,13 @@ public class User {
      
     public void setLastUpdated(Date lastUpdated) {
         this.lastUpdated = lastUpdated;
+    }
+    
+       public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
     }
 }

@@ -20,6 +20,7 @@ import com.fwrp.models.UserRole;
 import com.fwrp.utilities.LoginResult;
 import com.fwrp.utilities.PasswordService;
 import com.fwrp.utilities.Result;
+import java.util.List;
 
 /**
  *
@@ -107,5 +108,11 @@ public class UserManager {
         return new LoginResult(true,"Login success!",user.getUserId());
 
     }
+
+
+    public List<User> getUsersSubscribedToSurplusFoodAlerts() {
+    return userDAO.getUsersSubscribedToSurplusFoodAlerts();
+    }
+
 
 }

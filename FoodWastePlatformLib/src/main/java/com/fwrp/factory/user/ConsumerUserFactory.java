@@ -4,8 +4,8 @@
  */
 package com.fwrp.factory.user;
 
-import com.fwrp.datatier.dao.dto.User;
 import com.fwrp.factory.user.model.Consumer;
+import com.fwrp.models.User;
 import com.fwrp.validators.Validator;
 import com.fwrp.validators.ValidatorFactory;
 import java.util.Map;
