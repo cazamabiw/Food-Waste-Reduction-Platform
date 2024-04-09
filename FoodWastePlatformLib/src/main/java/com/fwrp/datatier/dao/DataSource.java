@@ -13,10 +13,6 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Properties;
 
-/**
- *
- * @author cazam
- */
 //singleton //associate with dao classes
 public class DataSource {
     
@@ -39,7 +35,7 @@ public class DataSource {
      * 
      * @return The singleton instance of the DataSource class.
      */
-    public static DataSource Instance() {
+    public static DataSource getInstance() {
         if (instance == null) {
             instance = new DataSource();
         }

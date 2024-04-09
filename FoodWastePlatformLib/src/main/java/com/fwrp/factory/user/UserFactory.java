@@ -4,8 +4,9 @@
  */
 package com.fwrp.factory.user;
 
-import com.fwrp.datatier.dao.dto.User;
 import java.util.Map;
+
+import com.fwrp.models.User;
 
 
 /**

@@ -4,8 +4,9 @@
  */
 package com.fwrp.datatier.dao;
 
-import com.fwrp.datatier.dao.dto.InventoryHistory;
 import java.util.List;
+
+import com.fwrp.models.InventoryHistory;
 
 /**
  *

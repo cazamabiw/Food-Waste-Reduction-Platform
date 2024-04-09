@@ -4,13 +4,10 @@
  */
 package com.fwrp.validators;
 
-/**
- *
- * @author cazam
- */
-import com.fwrp.datatier.dao.dto.User;
 import java.util.HashMap;
 import java.util.Map;
+
+import com.fwrp.models.User;
 
 public class ValidatorFactory {
     private final Map<Class<?>, Object> validators = new HashMap<>();
