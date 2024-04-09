@@ -11,6 +11,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -170,4 +171,35 @@ public User get(int id) {
 
         return emailInUse;
     }
+    @Override
+public List<User> getUsersSubscribedToSurplusFoodAlerts() {
+    List<User> subscribedUsers = new ArrayList<>();
+    String sql = "SELECT * FROM users WHERE is_notified = ?";
+    try (Connection connection = dataSource.getConnection();
+         PreparedStatement statement = connection.prepareStatement(sql)) {
+        statement.setBoolean(1, true);
+        try (ResultSet resultSet = statement.executeQuery()) {
+            while (resultSet.next()) {
+                User user = new User();
+                user.setUserId(resultSet.getInt("user_id"));
+                user.setFirstName(resultSet.getString("first_name"));
+                user.setLastName(resultSet.getString("last_name"));
+                user.setEmail(resultSet.getString("email"));
+                user.setAddressLine(resultSet.getString("address_line"));
+                user.setCity(resultSet.getString("city"));
+                          user.setPhoneNumber(resultSet.getString("phone_number"));
+                user.setProvince(resultSet.getString("province"));
+                user.setPostalCode(resultSet.getString("postal_code"));
+                     user.setIsNotified(resultSet.getBoolean("is_notified"));
+                // Add the user to the list
+                subscribedUsers.add(user);
+            }
+        }
+    } catch (SQLException e) {
+        e.printStackTrace();
+        // Handle exception appropriately
+    }
+    return subscribedUsers;
+}
+
 }
