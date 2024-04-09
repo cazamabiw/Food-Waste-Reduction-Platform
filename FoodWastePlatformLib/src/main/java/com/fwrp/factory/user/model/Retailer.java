@@ -4,7 +4,7 @@
  */
 package com.fwrp.factory.user.model;
 
-import com.fwrp.datatier.dao.dto.User;
+import com.fwrp.models.User;
 
 /**
  *

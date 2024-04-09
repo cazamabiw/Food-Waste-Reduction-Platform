@@ -4,10 +4,10 @@
  */
 package com.fwrp.validators;
 
-import com.fwrp.datatier.dao.dto.User;
 import com.fwrp.factory.user.model.CharitableOrganization;
 import com.fwrp.factory.user.model.Consumer;
 import com.fwrp.factory.user.model.Retailer;
+import com.fwrp.models.User;
 
 /**
  *
