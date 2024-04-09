@@ -2,16 +2,14 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package com.fwrp.models;
-
-import java.util.Date;
+package com.fwrp.datatier.dto;
+import com.fwrp.utilities.UserType;
 
 /**
  *
  * @author Sreelakshmi Odatt Venu
  */
-public class User {
-    private int userId;
+public class UserCreationDTO {
     private String firstName;
     private String lastName;
     private String email;
@@ -20,19 +18,9 @@ public class User {
     private String city;
     private String province;
     private String postalCode;
-    private boolean notified;
-    private Date lastUpdated;
-
-    // Getters and Setters
-    public int getUserId() {
-        return userId;
-    }
-
-    public void setUserId(int userId) {
-        this.userId = userId;
-    }
-
-    public String getFirstName() {
+    
+    private UserType roleName;
+     public String getFirstName() {
         return firstName;
     }
 
@@ -95,21 +83,12 @@ public class User {
     public void setPostalCode(String postalCode) {
         this.postalCode = postalCode;
     }
-
-    public boolean isNotified() {
-        return notified;
+    
+       public UserType getRoleName() {
+        return roleName;
     }
 
-    public void setIsNotified(boolean notified) {
-        this.notified = notified;
-    }
-
-    public Date getLastUpdated() {
-        return lastUpdated;
-    }
-
-     
-    public void setLastUpdated(Date lastUpdated) {
-        this.lastUpdated = lastUpdated;
+    public void setRoleName(UserType roleName) {
+        this.roleName = roleName;
     }
 }

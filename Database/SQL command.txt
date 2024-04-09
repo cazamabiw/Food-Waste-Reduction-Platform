@@ -8,6 +8,7 @@ first_name VARCHAR(50) NOT NULL,
 last_name VARCHAR(50) NOT NULL,
 email VARCHAR(100) NOT NULL,
 user_password VARCHAR(100) NOT NULL, -- hash the password
+phone_number VARCHAR(15) NOT NULL,
 address_line VARCHAR(80),
 city VARCHAR(50),
 province VARCHAR(50),
@@ -131,8 +132,8 @@ INSERT INTO fwrp.food_statuses (food_status_id, food_status) VALUES
 
 -- Insert users with corresponding roles
 -- Retailer (retailer no notification setting)
-INSERT INTO users (first_name, last_name, email, user_password, is_notified, last_updated) VALUES
-('John', 'Doe', 'john@example.com', 'hashed_password', true, NOW());
+INSERT INTO users (first_name, last_name, email, user_password, is_notified, last_updated,phone_number) VALUES
+('John', 'Doe', 'john@example.com', 'hashed_password', true, NOW(),'656-322-3233');
 
 INSERT INTO retailers (user_id, store_name, contact_person) VALUES
 (LAST_INSERT_ID(), 'Doe Grocery Store', 'Jane Doe');
@@ -144,8 +145,8 @@ JOIN roles r ON r.role_name = 'retailer'
 WHERE u.email = 'john@example.com';
 
 -- Consumer
-INSERT INTO users (first_name, last_name, email, user_password, is_notified, last_updated) VALUES
-('Alice', 'Smith', 'alice@example.com', 'hashed_password', true, NOW());
+INSERT INTO users (first_name, last_name, email, user_password, is_notified, last_updated,phone_number) VALUES
+('Alice', 'Smith', 'alice@example.com', 'hashed_password', true, NOW(),'647-762-3226');
 
 INSERT INTO consumers (user_id, shipping_address, payment_method) VALUES
 (LAST_INSERT_ID(), '123 Main St', 'Credit Card');
@@ -160,8 +161,8 @@ JOIN roles r ON r.role_name = 'consumer'
 WHERE u.email = 'alice@example.com';
 
 -- Charitable Organization
-INSERT INTO users (first_name, last_name, email, user_password, is_notified, last_updated) VALUES
-('Bob', 'Johnson', 'bob@example.com', 'hashed_password', true, NOW());
+INSERT INTO users (first_name, last_name, email, user_password, is_notified, last_updated,phone_number) VALUES
+('Bob', 'Johnson', 'bob@example.com', 'hashed_password', true, NOW(),'613-908-2121');
 
 INSERT INTO charitable_organizations (user_id, organization_name) VALUES
 (LAST_INSERT_ID(), 'Food Bank');
