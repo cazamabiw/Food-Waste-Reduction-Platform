@@ -4,6 +4,9 @@
  */
 package com.fwrp.datatier.dao;
 
+import com.fwrp.datatier.dao.UserFoodPreferenceDao;
+
+
 import com.fwrp.models.UserFoodPreference;
 import java.util.List;
 
