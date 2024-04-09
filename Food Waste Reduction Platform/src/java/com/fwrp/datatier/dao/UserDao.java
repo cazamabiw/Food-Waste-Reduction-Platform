@@ -5,6 +5,7 @@
 package com.fwrp.datatier.dao;
 
 import com.fwrp.models.User;
+import java.util.List;
 
 /**
  *
@@ -13,4 +14,5 @@ import com.fwrp.models.User;
 public interface UserDao extends Dao<User> {
     User getUserByEmail(String email);
    boolean isEmailInUse(String email);
+     List<User> getUsersSubscribedToSurplusFoodAlerts();
 }

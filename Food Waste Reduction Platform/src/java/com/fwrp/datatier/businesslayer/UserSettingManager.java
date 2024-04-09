@@ -24,7 +24,7 @@ public class UserSettingManager {
 
     public UserSettingManager() {
 
-        userNotificationSettingDao = new UserNotificationSettingDaolmpl();
+        userNotificationSettingDao = new UserFoodPreferenceDaolmpl();
         userFoodPreferenceDao = new UserFoodPreferenceDaolmpl();
         foodItemDao = new FoodItemDaoImpl();
     }
