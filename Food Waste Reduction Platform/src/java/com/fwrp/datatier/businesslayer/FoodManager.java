@@ -1,4 +1,4 @@
-package com.fwrp.managers;
+package com.fwrp.datatier.businesslayer;
 
 import com.fwrp.datatier.dao.FoodItemDao;
 import com.fwrp.datatier.dao.FoodItemDaoImpl;
@@ -19,8 +19,6 @@ public class FoodManager {
 
     }
 
-    //getfooditem
-    //getfoodstatus
     public List<FoodItem> getFoodItems() {
         return foodItemDao.getAll();
     }
