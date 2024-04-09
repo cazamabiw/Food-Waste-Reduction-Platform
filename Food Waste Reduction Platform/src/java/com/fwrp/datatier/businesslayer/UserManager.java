@@ -108,8 +108,11 @@ public class UserManager {
         return new LoginResult(true,"Login success!",user.getUserId());
 
     }
+
+
     public List<User> getUsersSubscribedToSurplusFoodAlerts() {
     return userDAO.getUsersSubscribedToSurplusFoodAlerts();
     }
+
 
 }

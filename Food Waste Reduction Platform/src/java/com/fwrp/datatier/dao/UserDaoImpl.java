@@ -171,7 +171,8 @@ public User get(int id) {
 
         return emailInUse;
     }
-    @Override
+  
+   @Override
 public List<User> getUsersSubscribedToSurplusFoodAlerts() {
     List<User> subscribedUsers = new ArrayList<>();
     String sql = "SELECT * FROM users WHERE is_notified = ?";
