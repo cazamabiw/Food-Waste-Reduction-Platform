@@ -5,8 +5,9 @@
 package com.fwrp.managers;
 
 import com.fwrp.datatier.dao.UserDaoImpl;
-import com.fwrp.datatier.dao.dto.User;
 import com.fwrp.factory.user.UserFactory;
+import com.fwrp.models.User;
+
 import java.util.Map;
 
 /**
@@ -17,7 +18,11 @@ public class UserManager {
     private UserFactory userFactory; 
     private UserDaoImpl userDao; 
     
-        public UserManager(UserFactory userFactory, UserDaoImpl userDao) {
+    public UserManager(){
+        
+    }
+
+    public UserManager(UserFactory userFactory, UserDaoImpl userDao) {
         this.userFactory = userFactory;
         this.userDao = userDao;
     }

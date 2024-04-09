@@ -18,7 +18,7 @@ public class UserCreationDTO {
     private String city;
     private String province;
     private String postalCode;
-    
+     private String phoneNumber;
     private UserType roleName;
      public String getFirstName() {
         return firstName;
@@ -90,5 +90,13 @@ public class UserCreationDTO {
 
     public void setRoleName(UserType roleName) {
         this.roleName = roleName;
+    }
+    
+         public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
     }
 }

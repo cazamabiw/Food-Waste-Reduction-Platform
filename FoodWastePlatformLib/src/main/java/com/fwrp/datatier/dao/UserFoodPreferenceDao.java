@@ -4,12 +4,12 @@
  */
 package com.fwrp.datatier.dao;
 
-import com.fwrp.datatier.dao.dto.UserFoodPreference;
+import com.fwrp.datatier.dao.UserFoodPreferenceDao;
 
-/**
- *
- * @author cazam
- */
+
+import com.fwrp.models.UserFoodPreference;
+import java.util.List;
+
 public interface UserFoodPreferenceDao extends Dao<UserFoodPreference> {
-    
+    List<UserFoodPreference> getByUserId(int userId);
 }

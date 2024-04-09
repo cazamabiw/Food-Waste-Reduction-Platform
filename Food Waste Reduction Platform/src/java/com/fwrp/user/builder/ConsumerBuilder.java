@@ -78,6 +78,10 @@ public class ConsumerBuilder {
     public ConsumerBuilder withShippingAddress(String shippingAddress) {
         consumer.setShippingAddress(shippingAddress);
         return this;
+        
+    } public ConsumerBuilder withPhoneNumber(String phoneNumber) {
+        consumer.setPhoneNumber(phoneNumber);
+        return this;
     }
 
     public Consumer build() {
