@@ -7,6 +7,7 @@ package com.fwrp.datatier.businesslayer;
 import com.fwrp.datatier.dao.InventoryDao;
 import com.fwrp.datatier.dao.InventoryDaoImpl;
 import com.fwrp.datatier.dao.InventoryHistoryDao;
+import com.fwrp.datatier.dao.InventoryHistoryDaoImpl;
 import com.fwrp.models.Inventory;
 import com.fwrp.models.InventoryHistory;
 import com.fwrp.utilities.DateTimeService;
@@ -29,6 +30,7 @@ public class InventoryManager {
 
         notificationManager = new NotificationManager();
         inventoryDao = new InventoryDaoImpl();
+        inventoryHistoryDao = new InventoryHistoryDaoImpl();
 
     }
 
@@ -44,9 +46,7 @@ public class InventoryManager {
             // Get the current inventory from the database before updating
             Inventory currentInventory = inventoryDao.get(inventory.getId());
 
-            // Update the inventory in the database
-            inventoryDao.update(inventory);
-
+      
             // Check if quantity has changed
             int quantityChange = inventory.getQuantity() - currentInventory.getQuantity();
             if (quantityChange != 0) {
@@ -75,6 +75,8 @@ public class InventoryManager {
                 //send notification to user who subscribe
                 notificationManager.getUserSubscribeSurplusFoodAlerts(inventory.getUserId(), inventory.getFoodItemId());
             }
+      // Update the inventory in the database
+            inventoryDao.update(inventory);
 
         } catch (Exception ex) {
             // Handle exception appropriately
@@ -121,7 +123,7 @@ public class InventoryManager {
 
             // Log the action in the inventory history
             InventoryHistory inventoryLog = new InventoryHistory();
-            inventoryLog.setInventoryId(userId);
+            inventoryLog.setRecipientId(userId);
             inventoryLog.setQuantity(quantityChange); //can be positive /negative number
             inventoryLog.setAction(actionType);
             inventoryLog.setDateModified(DateTimeService.getCurrentUtcDateTime());
