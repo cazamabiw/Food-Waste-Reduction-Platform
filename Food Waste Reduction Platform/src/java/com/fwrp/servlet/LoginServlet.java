@@ -7,6 +7,8 @@ package com.fwrp.servlet;
 import com.fwrp.datatier.controller.FoodController;
 import com.fwrp.datatier.controller.InventoryController;
 import com.fwrp.datatier.controller.UserController;
+import com.fwrp.datatier.controller.UserSettingController;
+import com.fwrp.datatier.dto.UserFoodPreferenceDTO;
 import com.fwrp.models.CharitableOrganization;
 import com.fwrp.models.Consumer;
 import com.fwrp.models.FoodItem;
@@ -14,6 +16,7 @@ import com.fwrp.models.FoodStatus;
 import com.fwrp.models.Inventory;
 import com.fwrp.models.Retailer;
 import com.fwrp.models.User;
+import com.fwrp.models.UserNotificationSetting;
 import com.fwrp.utilities.InventoryResult;
 import com.fwrp.utilities.LoginResult;
 import java.io.IOException;
@@ -43,6 +46,7 @@ public class LoginServlet extends HttpServlet {
      */
      private final UserController userController = new UserController();
           private final FoodController foodController = new FoodController();
+              private final UserSettingController userSettingController = new UserSettingController();
       private final InventoryController inventoryController = new InventoryController();
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -142,7 +146,17 @@ public class LoginServlet extends HttpServlet {
                        session.setAttribute("foodStatuses", foodStatuses);
                      List<FoodItem> foodItems =  foodController.getFoodItems();
                                 session.setAttribute("foodItems", foodItems);
-                }
+                                
+                                //food pref
+                                
+                       List<UserFoodPreferenceDTO>  userfoodPref =         userSettingController.getUserFoodPreferenceByUserId(loginResult.getUserId());
+                         
+  session.setAttribute("userfoodPref", userfoodPref);                       
+//usertification
+                    UserNotificationSetting notisetting =             userSettingController.getUserNotificationSetting(loginResult.getUserId());
+                   session.setAttribute("notisetting", notisetting);
+            
+            }
 
             } else {
                 // Redirect to login page if user is not logged in
