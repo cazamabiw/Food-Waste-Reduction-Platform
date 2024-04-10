@@ -91,8 +91,8 @@ public class InventoryDaoImpl implements InventoryDao {
     public void insert(Inventory inventory) {
         try (Connection connection = dataSource.getConnection()) {
             String sql = "INSERT INTO inventory (user_id, food_item_id, expiration_date, quantity, price, " +
-                         "food_status_id, discounted_price, is_surplus, last_updated) " +
-                         "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                         "food_status_id, is_surplus, last_updated) " +
+                         "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
             try (PreparedStatement statement = connection.prepareStatement(sql)) {
                 statement.setInt(1, inventory.getUserId());
                 statement.setInt(2, inventory.getFoodItemId());
@@ -100,9 +100,9 @@ public class InventoryDaoImpl implements InventoryDao {
                 statement.setInt(4, inventory.getQuantity());
                 statement.setDouble(5, inventory.getPrice());
                 statement.setInt(6, inventory.getFoodStatusId());
-                statement.setDouble(7, inventory.getDiscountedPrice());
-                statement.setBoolean(8, inventory.isSurplus());
-                statement.setTimestamp(9, new Timestamp(inventory.getLastUpdated().getTime()));
+               // statement.setDouble(7, inventory.getDiscountedPrice());
+                statement.setBoolean(7, inventory.isSurplus());
+                statement.setTimestamp(8, new Timestamp(inventory.getLastUpdated().getTime()));
                 statement.executeUpdate();
             }
         } catch (SQLException ex) {
@@ -114,20 +114,19 @@ public class InventoryDaoImpl implements InventoryDao {
     @Override
     public void update(Inventory inventory) {
         try (Connection connection = dataSource.getConnection()) {
-            String sql = "UPDATE inventory SET user_id = ?, food_item_id = ?, expiration_date = ?, " +
+            String sql = "UPDATE inventory SET user_id = ?, expiration_date = ?, " +
                          "quantity = ?, price = ?, food_status_id = ?, discounted_price = ?, is_surplus = ?, " +
                          "last_updated = ? WHERE id = ?";
             try (PreparedStatement statement = connection.prepareStatement(sql)) {
                 statement.setInt(1, inventory.getUserId());
-                statement.setInt(2, inventory.getFoodItemId());
-                statement.setDate(3, new java.sql.Date(inventory.getExpirationDate().getTime()));
-                statement.setInt(4, inventory.getQuantity());
-                statement.setDouble(5, inventory.getPrice());
-                statement.setInt(6, inventory.getFoodStatusId());
-                statement.setDouble(7, inventory.getDiscountedPrice());
-                statement.setBoolean(8, inventory.isSurplus());
-                statement.setTimestamp(9, new Timestamp(inventory.getLastUpdated().getTime()));
-                statement.setInt(10, inventory.getId());
+                statement.setDate(2, new java.sql.Date(inventory.getExpirationDate().getTime()));
+                statement.setInt(3, inventory.getQuantity());
+                statement.setDouble(4, inventory.getPrice());
+                statement.setInt(5, inventory.getFoodStatusId());
+                statement.setDouble(6, inventory.getDiscountedPrice());
+                statement.setBoolean(7, inventory.isSurplus());
+                statement.setTimestamp(8, new Timestamp(inventory.getLastUpdated().getTime()));
+                statement.setInt(9, inventory.getId());
                 statement.executeUpdate();
             }
         } catch (SQLException ex) {

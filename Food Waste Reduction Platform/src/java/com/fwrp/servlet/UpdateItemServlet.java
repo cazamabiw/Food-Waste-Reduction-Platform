@@ -7,15 +7,12 @@ package com.fwrp.servlet;
 import com.fwrp.datatier.controller.InventoryController;
 import com.fwrp.models.Inventory;
 import com.fwrp.models.Retailer;
-import com.fwrp.models.User;
 import com.fwrp.utilities.DateTimeService;
-import com.fwrp.utilities.InventoryResult;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -26,8 +23,9 @@ import javax.servlet.http.HttpSession;
  *
  * @author cazam
  */
-public class AddItemServlet extends HttpServlet {
 
+public class UpdateItemServlet extends HttpServlet {
+ private final InventoryController inventoryController = new InventoryController();
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -37,8 +35,6 @@ public class AddItemServlet extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-     
-      private final InventoryController inventoryController = new InventoryController();
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
@@ -47,10 +43,10 @@ public class AddItemServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet AddItemServlet</title>");            
+            out.println("<title>Servlet UpdateItemServlet</title>");            
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet AddItemServlet at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet UpdateItemServlet at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -69,7 +65,6 @@ public class AddItemServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         processRequest(request, response);
-     
     }
 
     /**
@@ -83,20 +78,15 @@ public class AddItemServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
-            HttpSession session = request.getSession();
-        Retailer currentUser = (Retailer) session.getAttribute("currentUser");
+         HttpSession session = request.getSession();
+          Retailer currentUser = (Retailer) session.getAttribute("currentUser");
         
-        
-
-  int quantity = Integer.parseInt(request.getParameter("quantity"));
-
-   int itemId = Integer.parseInt(request.getParameter("foodItemId"));
-
-    double price = Double.parseDouble(request.getParameter("price"));
-   int foodStatusId = Integer.parseInt(request.getParameter("foodStatusId")); // Assuming foodStatus is an integer
-
-   String expirationDateString = request.getParameter("expirationDate");
+             int itemId = Integer.parseInt(request.getParameter("itemId"));
+        int foodStatusId = Integer.parseInt(request.getParameter("foodStatus"));
+        int quantity = Integer.parseInt(request.getParameter("quantity"));
+        double price = Double.parseDouble(request.getParameter("price"));
+        double discountedPrice = Double.parseDouble(request.getParameter("discountedPrice"));
+        String expirationDateString = request.getParameter("expirationDate");
     Date expirationDate = null;  
     try {
     expirationDate = new SimpleDateFormat("yyyy-MM-dd").parse(expirationDateString);
@@ -104,28 +94,22 @@ public class AddItemServlet extends HttpServlet {
     // Handle invalid date format
     e.printStackTrace();
 }
-////
-    Inventory inventory = new Inventory();
-    inventory.setUserId(currentUser.getUserId());
+        //String isSurplus = request.getParameter("isSurplus");
+        String isSurplus = request.getParameter("isSurplus");
+boolean surplus = (isSurplus != null && isSurplus.equals("on"));
+
+ Inventory inventory = new Inventory();
+       inventory.setId(itemId);
        inventory.setUserId(currentUser.getUserId());
        inventory.setPrice(price);
        inventory.setExpirationDate(expirationDate);
-       inventory.setFoodStatusId(foodStatusId);
        inventory.setQuantity(quantity);
-       inventory.setFoodItemId(itemId);
+       inventory.setDiscountedPrice(discountedPrice);
+       inventory.setFoodStatusId(foodStatusId);
+       inventory.setSurplus(surplus);
       inventory.setLastUpdated(DateTimeService.getCurrentUtcDateTime());
-
-    inventoryController.addInventory(inventory);
-
-//// Set inventory data in session
-//List<InventoryResult> inventoryList = inventoryController.getInventoryByRetailerId(currentUser.getUserId());
-//session.setAttribute("inventory", inventoryList);
-//
-//// Forward the request to the JSP page
-//request.getRequestDispatcher("../views/inventory.jsp").forward(request, response);
-
+inventoryController.updateInventory(inventory);
 response.sendRedirect("/Food_Waste_Reduction_Platform/views/inventory.jsp");
-//response.sendRedirect("inventory.jsp");
     }
 
     /**
