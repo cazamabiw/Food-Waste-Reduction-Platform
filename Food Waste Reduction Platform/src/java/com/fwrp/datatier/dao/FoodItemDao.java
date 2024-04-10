@@ -9,5 +9,5 @@ import com.fwrp.models.FoodItem;
  * @author cazam
  */
 public interface FoodItemDao extends Dao<FoodItem> {
-    
+    FoodItem getFoodItemByName(String foodItemName);
 }

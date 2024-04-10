@@ -28,5 +28,8 @@ public class FoodManager {
     public List<FoodStatus> getFoodStatuses() {
         return foodStatusDao.getAll();
     }
+      public FoodItem getFoodItemByName(String foodItemName) {
+             return foodItemDao.getFoodItemByName(foodItemName);
+        }
 
 }

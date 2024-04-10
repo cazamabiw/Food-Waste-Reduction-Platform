@@ -85,5 +85,28 @@ public class FoodItemDaoImpl implements FoodItemDao {
     public void delete(FoodItem t) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
+
+    @Override
+    public FoodItem getFoodItemByName(String foodItemName) {
+         try (Connection connection = dataSource.getConnection()) {
+            String sql = "SELECT * FROM food_items WHERE item_name = ?";
+            try (PreparedStatement statement = connection.prepareStatement(sql)) {
+                statement.setString(1, foodItemName);
+                try (ResultSet resultSet = statement.executeQuery()) {
+                    if (resultSet.next()) {
+                        FoodItem foodItem = new FoodItem();
+                        foodItem.setFoodItemId(resultSet.getInt("food_item_id"));
+                        foodItem.setItemName(resultSet.getString("item_name"));
+                        foodItem.setItemDescription(resultSet.getString("item_description"));
+                        return foodItem;
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            // Handle exception appropriately
+        }
+        return null;
+    }
     
 }

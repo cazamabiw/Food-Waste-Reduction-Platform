@@ -14,7 +14,7 @@ public class FoodItem {
     private String itemDescription;
 
     // Getters and Setters
-    public long getFoodItemId() {
+    public int getFoodItemId() {
         return foodItemId;
     }
 

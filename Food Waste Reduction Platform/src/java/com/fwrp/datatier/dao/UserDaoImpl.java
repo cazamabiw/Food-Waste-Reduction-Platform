@@ -203,4 +203,19 @@ public List<User> getUsersSubscribedToSurplusFoodAlerts() {
     return subscribedUsers;
 }
 
+    @Override
+    public void setIsNotify(int userId,boolean isNotify) {
+          try (Connection connection = dataSource.getConnection()) {
+        String sql = "UPDATE users SET is_notified = ? WHERE user_id = ?";
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setBoolean(1, isNotify);
+            statement.setInt(2, userId); 
+            statement.executeUpdate();
+        }
+    } catch (SQLException e) {
+        e.printStackTrace();
+        // Handle exception appropriately
+    } 
+    }
+
 }
