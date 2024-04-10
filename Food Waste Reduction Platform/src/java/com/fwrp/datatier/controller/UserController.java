@@ -48,7 +48,9 @@ public class UserController {
             return null;
         }
     }
-    
+        public UserRoleResult getRoleByUserId(int userId){
+       return roleManager.getUserRoleName(userId);
+    }
     public LoginResult Login(String email,String password){
       // return userManager.Login(email, password);
      return   userManager.Login(email, password);

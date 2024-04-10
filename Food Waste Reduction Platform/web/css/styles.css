@@ -1,0 +1,43 @@
+/* styles.css */
+
+/* Body background color */
+body {
+    background-color: #f0f0f0; /* light gray */
+    font-family: Arial, sans-serif; /* default font */
+}
+
+/* Container styles */
+.container {
+    width: 80%; /* width of the container */
+    margin: 0 auto; /* center the container */
+    padding: 20px; /* add some padding */
+    background-color: #ffffff; /* white background */
+    border-radius: 10px; /* rounded corners */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* drop shadow */
+}
+
+/* Heading styles */
+h1 {
+    color: #008000; /* green */
+}
+
+/* Paragraph styles */
+p {
+    color: #333333; /* dark gray */
+}
+
+/* Button styles */
+button {
+    background-color: #008000; /* green */
+    color: #ffffff; /* white text */
+    border: none; /* remove border */
+    padding: 10px 20px; /* add padding */
+    border-radius: 5px; /* rounded corners */
+    cursor: pointer; /* show pointer cursor */
+    font-size: 16px; /* font size */
+}
+
+/* Button hover effect */
+button:hover {
+    background-color: #005000; /* dark green on hover */
+}

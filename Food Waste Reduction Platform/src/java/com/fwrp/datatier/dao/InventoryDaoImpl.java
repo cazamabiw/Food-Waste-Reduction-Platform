@@ -5,14 +5,15 @@
 package com.fwrp.datatier.dao;
 
 import com.fwrp.models.Inventory;
-import java.sql.*;
+import com.fwrp.utilities.InventoryResult;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- *
- * @author beyul
- */
 public class InventoryDaoImpl implements InventoryDao {
     private DataSource dataSource;
 
@@ -21,15 +22,24 @@ public class InventoryDaoImpl implements InventoryDao {
     }
 
     @Override
-    public List<Inventory> getByUserId(int userId) {
-        List<Inventory> inventories = new ArrayList<>();
+    public List<InventoryResult> getByUserId(int userId) {
+        List<InventoryResult> inventoryResults = new ArrayList<>();
         try (Connection connection = dataSource.getConnection()) {
-            String sql = "SELECT * FROM inventory WHERE user_id = ?";
+            String sql = "SELECT i.id, i.user_id, i.food_item_id, i.expiration_date, "
+                       + "i.quantity, i.price, i.food_status_id, i.discounted_price, "
+                       + "i.is_surplus, i.last_updated, f.item_name, u.first_name, "
+                       + "u.last_name, fs.food_status "
+                       + "FROM inventory i "
+                       + "JOIN food_items f ON i.food_item_id = f.food_item_id "
+                       + "JOIN users u ON i.user_id = u.user_id "
+                       + "JOIN food_statuses fs ON i.food_status_id = fs.food_status_id "
+                       + "WHERE i.user_id = ?";
             try (PreparedStatement statement = connection.prepareStatement(sql)) {
                 statement.setInt(1, userId);
                 try (ResultSet resultSet = statement.executeQuery()) {
                     while (resultSet.next()) {
-                        inventories.add(mapResultSetToInventory(resultSet));
+                        InventoryResult inventoryResult = mapResultSetToInventoryDetail(resultSet);
+                        inventoryResults.add(inventoryResult);
                     }
                 }
             }
@@ -37,7 +47,7 @@ public class InventoryDaoImpl implements InventoryDao {
             ex.printStackTrace();
             // Handle exception appropriately
         }
-        return inventories;
+        return inventoryResults;
     }
 
     @Override
@@ -81,8 +91,8 @@ public class InventoryDaoImpl implements InventoryDao {
     public void insert(Inventory inventory) {
         try (Connection connection = dataSource.getConnection()) {
             String sql = "INSERT INTO inventory (user_id, food_item_id, expiration_date, quantity, price, " +
-                         "food_status_id, discounted_price, is_surplus, last_updated) " +
-                         "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                         "food_status_id, is_surplus, last_updated) " +
+                         "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
             try (PreparedStatement statement = connection.prepareStatement(sql)) {
                 statement.setInt(1, inventory.getUserId());
                 statement.setInt(2, inventory.getFoodItemId());
@@ -90,9 +100,9 @@ public class InventoryDaoImpl implements InventoryDao {
                 statement.setInt(4, inventory.getQuantity());
                 statement.setDouble(5, inventory.getPrice());
                 statement.setInt(6, inventory.getFoodStatusId());
-                statement.setDouble(7, inventory.getDiscountedPrice());
-                statement.setBoolean(8, inventory.isSurplus());
-                statement.setTimestamp(9, new Timestamp(inventory.getLastUpdated().getTime()));
+               // statement.setDouble(7, inventory.getDiscountedPrice());
+                statement.setBoolean(7, inventory.isSurplus());
+                statement.setTimestamp(8, new Timestamp(inventory.getLastUpdated().getTime()));
                 statement.executeUpdate();
             }
         } catch (SQLException ex) {
@@ -104,20 +114,19 @@ public class InventoryDaoImpl implements InventoryDao {
     @Override
     public void update(Inventory inventory) {
         try (Connection connection = dataSource.getConnection()) {
-            String sql = "UPDATE inventory SET user_id = ?, food_item_id = ?, expiration_date = ?, " +
+            String sql = "UPDATE inventory SET user_id = ?, expiration_date = ?, " +
                          "quantity = ?, price = ?, food_status_id = ?, discounted_price = ?, is_surplus = ?, " +
                          "last_updated = ? WHERE id = ?";
             try (PreparedStatement statement = connection.prepareStatement(sql)) {
                 statement.setInt(1, inventory.getUserId());
-                statement.setInt(2, inventory.getFoodItemId());
-                statement.setDate(3, new java.sql.Date(inventory.getExpirationDate().getTime()));
-                statement.setInt(4, inventory.getQuantity());
-                statement.setDouble(5, inventory.getPrice());
-                statement.setInt(6, inventory.getFoodStatusId());
-                statement.setDouble(7, inventory.getDiscountedPrice());
-                statement.setBoolean(8, inventory.isSurplus());
-                statement.setTimestamp(9, new Timestamp(inventory.getLastUpdated().getTime()));
-                statement.setInt(10, inventory.getId());
+                statement.setDate(2, new java.sql.Date(inventory.getExpirationDate().getTime()));
+                statement.setInt(3, inventory.getQuantity());
+                statement.setDouble(4, inventory.getPrice());
+                statement.setInt(5, inventory.getFoodStatusId());
+                statement.setDouble(6, inventory.getDiscountedPrice());
+                statement.setBoolean(7, inventory.isSurplus());
+                statement.setTimestamp(8, new Timestamp(inventory.getLastUpdated().getTime()));
+                statement.setInt(9, inventory.getId());
                 statement.executeUpdate();
             }
         } catch (SQLException ex) {
@@ -140,6 +149,24 @@ public class InventoryDaoImpl implements InventoryDao {
         }
     }
 
+    private InventoryResult mapResultSetToInventoryDetail(ResultSet resultSet) throws SQLException {
+        InventoryResult inventoryResult = new InventoryResult();
+        inventoryResult.setId(resultSet.getInt("id"));
+        inventoryResult.setUserId(resultSet.getInt("user_id"));
+        inventoryResult.setFoodItemId(resultSet.getInt("food_item_id"));
+        inventoryResult.setExpirationDate(resultSet.getDate("expiration_date"));
+        inventoryResult.setQuantity(resultSet.getInt("quantity"));
+        inventoryResult.setPrice(resultSet.getDouble("price"));
+        inventoryResult.setFoodStatusId(resultSet.getInt("food_status_id"));
+        inventoryResult.setDiscountedPrice(resultSet.getDouble("discounted_price"));
+        inventoryResult.setSurplus(resultSet.getBoolean("is_surplus"));
+        inventoryResult.setLastUpdated(resultSet.getDate("last_updated"));
+        inventoryResult.setFoodName(resultSet.getString("item_name"));
+        inventoryResult.setFirstName(resultSet.getString("first_name"));
+        inventoryResult.setLastName(resultSet.getString("last_name"));
+        inventoryResult.setFoodStatus(resultSet.getString("food_status"));
+        return inventoryResult;
+    }
     private Inventory mapResultSetToInventory(ResultSet resultSet) throws SQLException {
         Inventory inventory = new Inventory();
         inventory.setId(resultSet.getInt("id"));
@@ -154,74 +181,52 @@ public class InventoryDaoImpl implements InventoryDao {
         inventory.setLastUpdated(resultSet.getTimestamp("last_updated"));
         return inventory;
     }
-
-@Override
-public List<Inventory> getIsSurplusData(int userId) {
-    List<Inventory> surplusInventoryList = new ArrayList<>();
-    try (Connection connection = dataSource.getConnection()) {
-        String sql = "SELECT * FROM inventory WHERE user_id = ? AND is_surplus = ?";
-        try (PreparedStatement statement = connection.prepareStatement(sql)) {
-            statement.setInt(1, userId);
-            statement.setBoolean(2, true);
-            try (ResultSet resultSet = statement.executeQuery()) {
-                while (resultSet.next()) {
-                    surplusInventoryList.add(mapResultSetToInventory(resultSet));
+    @Override
+    public List<InventoryResult> getIsSurplusData(int userId) {
+        List<InventoryResult> inventoryResults = new ArrayList<>();
+        try (Connection connection = dataSource.getConnection()) {
+            String sql = "SELECT * FROM inventory WHERE user_id = ? AND is_surplus = ?";
+            try (PreparedStatement statement = connection.prepareStatement(sql)) {
+                statement.setInt(1, userId);
+                statement.setBoolean(2, true);
+                try (ResultSet resultSet = statement.executeQuery()) {
+                    while (resultSet.next()) {
+                        inventoryResults.add(mapResultSetToInventoryDetail(resultSet));
+                    }
                 }
             }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            // Handle exception appropriately
         }
-    } catch (SQLException ex) {
-        ex.printStackTrace();
-        // Handle exception appropriately
+        return inventoryResults;
     }
-    return surplusInventoryList;
-}
-
-@Override
-public List<Inventory> getIsSurplusDataInAWeek(int userId) {
-    List<Inventory> surplusInventoryList = new ArrayList<>();
-    try (Connection connection = dataSource.getConnection()) {
-        String sql = "SELECT * FROM inventory WHERE user_id = ? AND is_surplus = ? AND expiration_date <= DATE_ADD(CURRENT_DATE(), INTERVAL 7 DAY)";
-        try (PreparedStatement statement = connection.prepareStatement(sql)) {
-            statement.setInt(1, userId);
-            statement.setBoolean(2, true);
-            try (ResultSet resultSet = statement.executeQuery()) {
-                while (resultSet.next()) {
-                    surplusInventoryList.add(mapResultSetToInventory(resultSet));
-                }
-            }
-        }
-    } catch (SQLException ex) {
-        ex.printStackTrace();
-        // Handle exception appropriately
-    }
-    return surplusInventoryList;
-}
 
     @Override
-    public List<Inventory> getIsSurplusData() {
-  List<Inventory> surplusInventoryList = new ArrayList<>();
-    try (Connection connection = dataSource.getConnection()) {
-        String sql = "SELECT * FROM inventory WHERE is_surplus = ?";
-        try (PreparedStatement statement = connection.prepareStatement(sql)) {         
-            statement.setBoolean(1, true);
-            try (ResultSet resultSet = statement.executeQuery()) {
-                while (resultSet.next()) {
-                    surplusInventoryList.add(mapResultSetToInventory(resultSet));
+    public List<InventoryResult> getIsSurplusDataInAWeek(int userId) {
+        List<InventoryResult> inventoryResults = new ArrayList<>();
+        try (Connection connection = dataSource.getConnection()) {
+            String sql = "SELECT * FROM inventory WHERE user_id = ? AND is_surplus = ? AND expiration_date <= DATE_ADD(CURRENT_DATE(), INTERVAL 7 DAY)";
+            try (PreparedStatement statement = connection.prepareStatement(sql)) {
+                statement.setInt(1, userId);
+                statement.setBoolean(2, true);
+                try (ResultSet resultSet = statement.executeQuery()) {
+                    while (resultSet.next()) {
+                        inventoryResults.add(mapResultSetToInventoryDetail(resultSet));
+                    }
                 }
             }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            // Handle exception appropriately
         }
-    } catch (SQLException ex) {
-        ex.printStackTrace();
-        // Handle exception appropriately     
-    }
-         return surplusInventoryList;
-
+        return inventoryResults;
     }
 
-
+ 
     @Override
     public void updateInventoryQuantity(int id, int quantityDecrease) {
-         try (Connection connection = dataSource.getConnection()) {
+        try (Connection connection = dataSource.getConnection()) {
             String sql = "UPDATE inventory SET quantity = quantity - ? WHERE id = ?";
             try (PreparedStatement statement = connection.prepareStatement(sql)) {
                 statement.setInt(1, quantityDecrease);
@@ -233,5 +238,34 @@ public List<Inventory> getIsSurplusDataInAWeek(int userId) {
             // Handle exception appropriately
         }
     }
+
+ @Override
+public List<InventoryResult> getIsSurplusDataWithDetail() {
+    List<InventoryResult> inventoryResults = new ArrayList<>();
+    try (Connection connection = dataSource.getConnection()) {
+        String sql = "SELECT i.id, i.user_id, i.food_item_id, i.expiration_date, "
+                   + "i.quantity, i.price, i.food_status_id, i.discounted_price, "
+                   + "i.is_surplus, i.last_updated, f.item_name, u.first_name, "
+                   + "u.last_name, fs.food_status "
+                   + "FROM inventory i "
+                   + "JOIN food_items f ON i.food_item_id = f.food_item_id "
+                   + "JOIN users u ON i.user_id = u.user_id "
+                   + "JOIN food_statuses fs ON i.food_status_id = fs.food_status_id "
+                   + "WHERE i.is_surplus = ?";
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setBoolean(1, true);
+            try (ResultSet resultSet = statement.executeQuery()) {
+                while (resultSet.next()) {
+                    InventoryResult inventoryResult = mapResultSetToInventoryDetail(resultSet);
+                    inventoryResults.add(inventoryResult);
+                }
+            }
+        }
+    } catch (SQLException ex) {
+        ex.printStackTrace();
+        // Handle exception appropriately
+    }
+    return inventoryResults;
+}
 
 }
