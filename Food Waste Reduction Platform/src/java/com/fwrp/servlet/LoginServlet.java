@@ -45,7 +45,7 @@ public class LoginServlet extends HttpServlet {
           private final FoodController foodController = new FoodController();
       private final InventoryController inventoryController = new InventoryController();
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+          throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
@@ -149,7 +149,7 @@ public class LoginServlet extends HttpServlet {
                 response.sendRedirect("login.jsp");
             }
         
-        
+      
        //  RequestDispatcher dispatcher = request.getRequestDispatcher("InventoryServlet");
       //  dispatcher.forward(request, response);
   
