@@ -135,7 +135,7 @@ public class LoginServlet extends HttpServlet {
                    }
                    else if(roleName.equalsIgnoreCase("consumer") || roleName.equalsIgnoreCase("charitable_organization") )
                    {
-                             List<InventoryResult> inventory = inventoryController.getSurplusInventory();
+                             List<InventoryResult> inventory = inventoryController.getSurplusInventory(roleName);
     
     // Set inventory data in session attribute
     session.setAttribute("inventory", inventory);

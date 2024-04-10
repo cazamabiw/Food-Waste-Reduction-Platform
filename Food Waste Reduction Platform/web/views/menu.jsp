@@ -16,6 +16,7 @@
 if ("consumer".equals(roleName) || "charitable_organization".equals(roleName)){ %>
     <li><a href="usernotificationsetting.jsp">Notification Settings</a></li>
     <li><a href="usersettingfoodpreference.jsp">Food Preference</a></li>
+        <li><a href="#">Report</a></li>
 <% } %>
         <li><a href="../LogoutServlet">Logout</a></li>
     </ul>

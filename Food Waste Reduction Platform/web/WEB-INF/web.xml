@@ -29,6 +29,14 @@
         <servlet-name>SettingNotificationServlet</servlet-name>
         <servlet-class>com.fwrp.servlet.SettingNotificationServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>PurchaseOrClaimFoodServlet</servlet-name>
+        <servlet-class>com.fwrp.servlet.PurchaseOrClaimFoodServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>AddFoodPrefServlet</servlet-name>
+        <servlet-class>com.fwrp.servlet.AddFoodPrefServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>LoginServlet</servlet-name>
         <url-pattern>/LoginServlet</url-pattern>
@@ -52,6 +60,14 @@
     <servlet-mapping>
         <servlet-name>SettingNotificationServlet</servlet-name>
         <url-pattern>/SettingNotificationServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>PurchaseOrClaimFoodServlet</servlet-name>
+        <url-pattern>/PurchaseOrClaimFoodServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AddFoodPrefServlet</servlet-name>
+        <url-pattern>/AddFoodPrefServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

@@ -95,6 +95,9 @@ boolean isSMS = (isSMSValue != null && isSMSValue.equals("on"));
 
         
 userSettingController.updateUserNotificationSetting(setting);
+
+   UserNotificationSetting notisetting =             userSettingController.getUserNotificationSetting(currentUser.getUserId());
+                   session.setAttribute("notisetting", notisetting);
          response.sendRedirect("/Food_Waste_Reduction_Platform/views/usernotificationsetting.jsp");
 
     }

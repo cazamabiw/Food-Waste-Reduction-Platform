@@ -4,15 +4,19 @@
  */
 package com.fwrp.servlet;
 
+import com.fwrp.datatier.controller.FoodController;
 import com.fwrp.datatier.controller.InventoryController;
+import com.fwrp.models.FoodItem;
 import com.fwrp.models.Inventory;
 import com.fwrp.models.Retailer;
 import com.fwrp.utilities.DateTimeService;
+import com.fwrp.utilities.InventoryResult;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -26,6 +30,7 @@ import javax.servlet.http.HttpSession;
 
 public class UpdateItemServlet extends HttpServlet {
  private final InventoryController inventoryController = new InventoryController();
+  private final FoodController foodController = new FoodController();
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -80,7 +85,7 @@ public class UpdateItemServlet extends HttpServlet {
             throws ServletException, IOException {
          HttpSession session = request.getSession();
           Retailer currentUser = (Retailer) session.getAttribute("currentUser");
-        
+        String foodName = request.getParameter("foodName");
              int itemId = Integer.parseInt(request.getParameter("itemId"));
         int foodStatusId = Integer.parseInt(request.getParameter("foodStatus"));
         int quantity = Integer.parseInt(request.getParameter("quantity"));
@@ -97,11 +102,12 @@ public class UpdateItemServlet extends HttpServlet {
         //String isSurplus = request.getParameter("isSurplus");
         String isSurplus = request.getParameter("isSurplus");
 boolean surplus = (isSurplus != null && isSurplus.equals("on"));
-
+FoodItem food = foodController.getFoodItemByName(foodName);
  Inventory inventory = new Inventory();
        inventory.setId(itemId);
        inventory.setUserId(currentUser.getUserId());
        inventory.setPrice(price);
+         inventory.setFoodItemId(food.getFoodItemId());
        inventory.setExpirationDate(expirationDate);
        inventory.setQuantity(quantity);
        inventory.setDiscountedPrice(discountedPrice);
@@ -109,6 +115,11 @@ boolean surplus = (isSurplus != null && isSurplus.equals("on"));
        inventory.setSurplus(surplus);
       inventory.setLastUpdated(DateTimeService.getCurrentUtcDateTime());
 inventoryController.updateInventory(inventory);
+
+     List<InventoryResult>  inventorys = inventoryController.getInventoryByRetailerId(currentUser.getUserId());
+    
+    // Set inventory data in session attribute
+    session.setAttribute("inventory", inventorys);
 response.sendRedirect("/Food_Waste_Reduction_Platform/views/inventory.jsp");
     }
 
