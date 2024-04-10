@@ -4,10 +4,13 @@
  */
 package com.fwrp.servlet;
 
+import com.fwrp.datatier.controller.FoodController;
 import com.fwrp.datatier.controller.InventoryController;
 import com.fwrp.datatier.controller.UserController;
 import com.fwrp.models.CharitableOrganization;
 import com.fwrp.models.Consumer;
+import com.fwrp.models.FoodItem;
+import com.fwrp.models.FoodStatus;
 import com.fwrp.models.Inventory;
 import com.fwrp.models.Retailer;
 import com.fwrp.models.User;
@@ -39,6 +42,7 @@ public class LoginServlet extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
      private final UserController userController = new UserController();
+          private final FoodController foodController = new FoodController();
       private final InventoryController inventoryController = new InventoryController();
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -96,6 +100,7 @@ public class LoginServlet extends HttpServlet {
         //int userId = (int) request.getSession().getAttribute("userId");
 
         User currentUser = userController.getCurrentUser(loginResult.getUserId());
+        currentUser.setUserId(loginResult.getUserId());
         if (currentUser != null) {
             if (currentUser instanceof Retailer) {
                 Retailer retailerUser = (Retailer) currentUser;
@@ -131,6 +136,12 @@ public class LoginServlet extends HttpServlet {
     // Set inventory data in session attribute
     session.setAttribute("inventory", inventory);
                    }
+                   //foodController
+                   
+                  List<FoodStatus> foodStatuses =  foodController.getFoodStatuses();
+                       session.setAttribute("foodStatuses", foodStatuses);
+                     List<FoodItem> foodItems =  foodController.getFoodItems();
+                                session.setAttribute("foodItems", foodItems);
                 }
 
             } else {
