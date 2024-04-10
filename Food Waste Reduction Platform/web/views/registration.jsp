@@ -18,9 +18,10 @@
 <body>
 <div class="register-container">
     <h2>User Registration</h2>
+     <form action="../RegisterServlet" method="post">
     <div class="input-group">
         <label for="userType">User Type:</label>
-        <select id="userType" onchange="showFields()">
+      <select id="userType" name="userType" onchange="showFields()">
             <option value="retailer">Retailer</option>
             <option value="consumer">Consumer</option>
             <option value="charitable">Charitable Organization</option>
@@ -79,6 +80,7 @@
         <input type="text" id="postalCode" name="postalCode" required>
     </div>
     <button type="submit" class="btn">Register</button>
+     </form>
        <p>Already have an account? <a href="login.jsp">Login here</a></p>
 </div>
 
