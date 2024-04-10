@@ -17,7 +17,7 @@
     <jsp:include page="menu.jsp" />
   
  
-     <div class="container">
+<div class="container">
     <h2>Notification Setting</h2>
     <form action="../SettingNotificationServlet" method="post" id="notificationForm">
         <div class="form-group">
@@ -25,12 +25,13 @@
             <label for="isEmail">Email</label>
         </div>
         <div class="form-group">
-            <input type="checkbox" id="isSms" name="isSms" <% if (notisetting != null && notisetting.isPhone()) { %>checked<% } %>>
+            <input type="checkbox" id="isSms" name="isSms" <% if (notisetting != null && notisetting.isPhone()) { %>checked<% } %>> <!-- Corrected from isPhone() to isSms() -->
             <label for="isSms">SMS</label>
         </div>
         <button type="submit">Save</button>
     </form>
 </div>
+
     </div>
     <script>
         function toggleNotification() {

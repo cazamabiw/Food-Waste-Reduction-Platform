@@ -1,9 +1,11 @@
 package com.fwrp.datatier.businesslayer;
 
+import com.fwrp.datatier.dto.UserFoodPreferenceDTO;
 import com.fwrp.models.User;
 import com.fwrp.models.UserNotificationSetting;
 import com.fwrp.services.notification.NotificationFactory;
 import com.fwrp.services.notification.NotificationService;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -60,10 +62,30 @@ users subscribed to alerts receive automatic notifications via email or phone.
         List<User> subscribedUsers = userManager.getUsersSubscribedToSurplusFoodAlerts();
 
         // Filter users based on location and food preferences
-        return subscribedUsers.stream()
-                .filter(user -> user.getCity().equals(retailer.getCity()) && 
-                                userSettingManager.getUserFoodPreferenceByUserId(user.getUserId()).contains(foodItemId))
-                .collect(Collectors.toList());
+        
+//       subscribedUsers =  subscribedUsers.stream()
+//                .filter(user -> user.getCity().equals(retailer.getCity()) && 
+//                                userSettingManager.getUserFoodPreferenceByUserId(user.getUserId()).contains(foodItemId))
+//                .collect(Collectors.toList());
+
+subscribedUsers = subscribedUsers.stream()
+    .filter(user -> user.getCity().equalsIgnoreCase(retailer.getCity()))
+    .collect(Collectors.toList());
+
+List<User> subscribedUserFoods = new ArrayList<>(); // Correct syntax for initializing a list
+
+for (User user : subscribedUsers) {
+    // Your logic for each user here
+    List<UserFoodPreferenceDTO> foodPref = userSettingManager.getUserFoodPreferenceByUserId(user.getUserId());
+    if (foodPref.stream().anyMatch(f -> f.getFoodItemId() == foodItemId)) { // Direct comparison with ==
+        subscribedUserFoods.add(user);
+    }
+}
+
+
+
+
+        return subscribedUserFoods;
     }
 
     private void sendSurplusFoodAlertNotifications(List<User> users, int foodItemId) {

@@ -98,7 +98,7 @@ public User get(int id) {
     @Override
     public void insert(User user) {
         try (Connection connection = dataSource.getConnection()) {
-            String sql = "INSERT INTO users (first_name, last_name, email, user_password, address_line, city, province, postal_code,is_notified,last_updated) VALUES (?, ?, ?, ?, ?, ?, ?, ?,?,?)";
+            String sql = "INSERT INTO users (first_name, last_name, email, user_password, address_line, city, province,postal_code,is_notified,phone_number,last_updated) VALUES (?, ?, ?, ?, ?, ?, ?, ?,?,?,?)";
             try (PreparedStatement statement = connection.prepareStatement(sql)) {
                 statement.setString(1, user.getFirstName());
                 statement.setString(2, user.getLastName());
@@ -110,7 +110,8 @@ public User get(int id) {
                 statement.setString(8, user.getPostalCode());
                 statement.setBoolean(9, false); //always false
                 Timestamp lastUpdatedTimestamp = new Timestamp(user.getLastUpdated().getTime());
-                statement.setTimestamp(10, lastUpdatedTimestamp);
+                  statement.setString(10, user.getPhoneNumber());
+                statement.setTimestamp(11, lastUpdatedTimestamp);
                 statement.executeUpdate();
             }
         } catch (SQLException e) {
@@ -202,5 +203,20 @@ public List<User> getUsersSubscribedToSurplusFoodAlerts() {
     }
     return subscribedUsers;
 }
+
+    @Override
+    public void setIsNotify(int userId,boolean isNotify) {
+          try (Connection connection = dataSource.getConnection()) {
+        String sql = "UPDATE users SET is_notified = ? WHERE user_id = ?";
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setBoolean(1, isNotify);
+            statement.setInt(2, userId); 
+            statement.executeUpdate();
+        }
+    } catch (SQLException e) {
+        e.printStackTrace();
+        // Handle exception appropriately
+    } 
+    }
 
 }

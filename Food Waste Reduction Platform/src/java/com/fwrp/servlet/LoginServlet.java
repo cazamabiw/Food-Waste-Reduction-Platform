@@ -49,7 +49,7 @@ public class LoginServlet extends HttpServlet {
               private final UserSettingController userSettingController = new UserSettingController();
       private final InventoryController inventoryController = new InventoryController();
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+          throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
@@ -135,7 +135,7 @@ public class LoginServlet extends HttpServlet {
                    }
                    else if(roleName.equalsIgnoreCase("consumer") || roleName.equalsIgnoreCase("charitable_organization") )
                    {
-                             List<InventoryResult> inventory = inventoryController.getSurplusInventory();
+                             List<InventoryResult> inventory = inventoryController.getSurplusInventory(roleName);
     
     // Set inventory data in session attribute
     session.setAttribute("inventory", inventory);
@@ -163,7 +163,7 @@ public class LoginServlet extends HttpServlet {
                 response.sendRedirect("login.jsp");
             }
         
-        
+      
        //  RequestDispatcher dispatcher = request.getRequestDispatcher("InventoryServlet");
       //  dispatcher.forward(request, response);
   

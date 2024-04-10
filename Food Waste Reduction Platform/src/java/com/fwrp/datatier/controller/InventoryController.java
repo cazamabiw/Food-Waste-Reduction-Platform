@@ -43,11 +43,13 @@ public class InventoryController {
     
     //consumer, charitableOrganization
     //view surplus
-    public  List<InventoryResult> getSurplusInventory(){
-       return inventoryManager.getSurplusInventory();
+    public  List<InventoryResult> getSurplusInventory(String roleName){
+        
+        
+       return inventoryManager.getSurplusInventory(roleName);
     }
     //claim  ,buy , updatequantity  and keep log 
-    public void updateInventoryQuantiry(int id,int quantityDecrease,String action,int actionBy){
+    public void updateInventoryQuantity(int id,int quantityDecrease,String action,int actionBy){
           inventoryManager.updateInventoryQuantity(id,quantityDecrease,action,actionBy);
           //action => claim(organization), purchase(consumer) , updateStock(retailer)
           //action by => userid who take the action 

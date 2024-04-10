@@ -15,6 +15,7 @@ import com.fwrp.utilities.InventoryResult;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  *
@@ -99,8 +100,22 @@ public class InventoryManager {
 
     //consumer, charitableOrganization
     //view surplus
-    public List<InventoryResult> getSurplusInventory() {
-        return inventoryDao.getIsSurplusDataWithDetail();
+    public List<InventoryResult> getSurplusInventory(String roleName) {
+        List<InventoryResult> data = inventoryDao.getIsSurplusDataWithDetail();
+          if ("charitable_organization".equals(roleName)) {
+             data = data.stream()
+    .filter(f -> f.getDiscountedPrice() == 0.0)
+    .collect(Collectors.toList());
+        } else if ("consumer".equals(roleName)) {
+             data = data.stream()
+    .filter(f -> f.getDiscountedPrice() > 0.0)
+    .collect(Collectors.toList());
+        }
+
+    
+    
+  
+        return data;
     }
 
     //claim  ,buy  and keep log 
