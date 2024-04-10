@@ -6,6 +6,7 @@ package com.fwrp.datatier.controller;
 
 import com.fwrp.datatier.businesslayer.InventoryManager;
 import com.fwrp.models.Inventory;
+import com.fwrp.utilities.InventoryResult;
 import java.util.List;
 
 /**
@@ -33,16 +34,16 @@ public class InventoryController {
     public void deleteInventory(Inventory inventory) {
       inventoryManager.deleteInventory(inventory);
     }
-    public  List<Inventory> getInventoryByRetailerId(int userId){
+    public  List<InventoryResult> getInventoryByRetailerId(int userId){
         return inventoryManager.getInventoryByRetailerId(userId);
     }
-    public List<Inventory> getIsSurplusDataInAWeek(int userId) {
+    public List<InventoryResult> getIsSurplusDataInAWeek(int userId) {
      return inventoryManager.getIsSurplusDataInAWeek(userId);
     }
     
     //consumer, charitableOrganization
     //view surplus
-    public  List<Inventory> getSurplusInventory(){
+    public  List<InventoryResult> getSurplusInventory(){
        return inventoryManager.getSurplusInventory();
     }
     //claim  ,buy , updatequantity  and keep log 

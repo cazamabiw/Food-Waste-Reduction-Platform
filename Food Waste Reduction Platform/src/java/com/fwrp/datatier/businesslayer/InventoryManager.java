@@ -10,6 +10,7 @@ import com.fwrp.datatier.dao.InventoryHistoryDao;
 import com.fwrp.models.Inventory;
 import com.fwrp.models.InventoryHistory;
 import com.fwrp.utilities.DateTimeService;
+import com.fwrp.utilities.InventoryResult;
 import java.util.List;
 
 /**
@@ -67,17 +68,17 @@ public class InventoryManager {
       inventoryDao.delete(inventory);
         
     }
-    public  List<Inventory> getInventoryByRetailerId(int userId){
+    public  List<InventoryResult> getInventoryByRetailerId(int userId){
         return inventoryDao.getByUserId(userId);
     }
-    public List<Inventory> getIsSurplusDataInAWeek(int userId) {
+    public List<InventoryResult> getIsSurplusDataInAWeek(int userId) {
      return inventoryDao.getIsSurplusDataInAWeek(userId);
     }
     
     //consumer, charitableOrganization
     //view surplus
-    public  List<Inventory> getSurplusInventory(){
-       return inventoryDao.getIsSurplusData();
+    public  List<InventoryResult> getSurplusInventory(){
+       return inventoryDao.getIsSurplusDataWithDetail();
     }
     //claim  ,buy  and keep log 
     public void updateInventoryQuantity(int id,int quantityDecrease,String roleName,int actionBy){

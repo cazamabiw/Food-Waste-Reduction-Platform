@@ -1,4 +1,19 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page import="javax.servlet.http.HttpSession" %>
+<%@ page import="com.fwrp.datatier.controller.UserController" %>
+<%
+    // Get the current session
+   // HttpSession session = request.getSession(false);
+
+    // Check if the session exists and contains a user object
+//    if (session != null && session.getAttribute("currentUser") != null) {
+//        // Session exists and user is logged in, redirect to inventory page
+//        response.sendRedirect("views/inventory.jsp");
+//    } else {
+//        // Session does not exist or user is not logged in, display the index page
+//       
+%>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -73,3 +88,6 @@
     </div>
 </body>
 </html>
+<%
+  //  }
+%>
