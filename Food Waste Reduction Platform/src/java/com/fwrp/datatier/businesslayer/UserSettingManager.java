@@ -2,6 +2,8 @@ package com.fwrp.datatier.businesslayer;
 
 import com.fwrp.datatier.dao.FoodItemDao;
 import com.fwrp.datatier.dao.FoodItemDaoImpl;
+import com.fwrp.datatier.dao.UserDao;
+import com.fwrp.datatier.dao.UserDaoImpl;
 import com.fwrp.datatier.dao.UserFoodPreferenceDao;
 import com.fwrp.datatier.dao.UserFoodPreferenceDaolmpl;
 import com.fwrp.datatier.dao.UserNotificationSettingDao;
@@ -21,12 +23,14 @@ public class UserSettingManager {
     private final UserNotificationSettingDao userNotificationSettingDao;
     private final UserFoodPreferenceDao userFoodPreferenceDao;
     private final FoodItemDao foodItemDao;
+       private final UserDao userDao;
 
     public UserSettingManager() {
 
         userNotificationSettingDao = new UserNotificationSettingDaolmpl();
         userFoodPreferenceDao = new UserFoodPreferenceDaolmpl();
         foodItemDao = new FoodItemDaoImpl();
+        userDao = new UserDaoImpl();
     }
 
     public void createUserNotificationSetting(UserNotificationSetting userNotificationSetting) {
@@ -39,6 +43,12 @@ public class UserSettingManager {
 
     public void updateUserNotificationSetting(UserNotificationSetting userNotificationSetting) {
         userNotificationSettingDao.update(userNotificationSetting);
+        if(userNotificationSetting.isEmail() == false && userNotificationSetting.isPhone() == false){
+              userDao.setIsNotify(userNotificationSetting.getUserId(),false);
+        }
+       if(userNotificationSetting.isEmail() == true || userNotificationSetting.isPhone() == true){
+           userDao.setIsNotify(userNotificationSetting.getUserId(),true);
+       }
     }
 
     public void addUserFoodPreference(UserFoodPreference userFoodPreference) {

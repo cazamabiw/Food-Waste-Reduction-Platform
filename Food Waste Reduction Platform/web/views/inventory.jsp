@@ -9,9 +9,12 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Inventory</title>
-        <link rel="stylesheet" href="../css/inventory.css">
+        <link rel="stylesheet" href="../css/inventory.css"><head>
+
+    <link rel="stylesheet" type="text/css" href="..css/menu.css">
     </head>
     <body>
+         <jsp:include page="menu.jsp" />
         <div class="container">
             <h2>Inventory</h2>
 
@@ -68,9 +71,6 @@
                     </form>
                 </div>
             </div>
-
-
-
             <table>
                 <thead>
                     <tr>
@@ -130,7 +130,7 @@
             <input type="hidden" id="updateItemId" name="itemId">
             <div class="form-group">
                 <label for="updateFoodName">Food Name:</label>
-                <label id="updateFoodNameLabel" name="foodName"></label>
+                <input type="text" id="updateFoodNameLabel" name="foodName" readonly>
             </div>
             <div class="form-group">
                 <label for="updateFoodStatus">Food Status:</label>
@@ -188,7 +188,7 @@ document.querySelectorAll('table .updateBtn').forEach(button => {
         const isSurplus = row.querySelector('.isSurplus').textContent;
         // Populate the form fields in the pop-up with the extracted data
         document.getElementById('updateItemId').value = itemId;
-        document.getElementById('updateFoodNameLabel').textContent = foodName;
+        document.getElementById('updateFoodNameLabel').value = foodName;
         // Set the selected option based on foodStatus
         const updateFoodStatusSelect = document.getElementById('updateFoodStatus');
         for (let option of updateFoodStatusSelect.options) {
@@ -223,11 +223,16 @@ document.getElementById('closeUpdatePopupBtn').addEventListener('click', functio
                 document.getElementById("closePopupBtn").addEventListener("click", function () {
                     document.getElementById("addItemPopup").style.display = "none";
                 });
+                
+               
             </script>
+            
+            
             <% } else if ("consumer".equals(roleName) || "charitable_organization".equals(roleName)) { %>
-            <table>
+            <table class="customer">
                 <thead>
                     <tr>
+                           <th></th>
                         <th>Item Name</th>
                         <th>Food Status</th>
                         <th>Quantity</th>
@@ -238,18 +243,23 @@ document.getElementById('closeUpdatePopupBtn').addEventListener('click', functio
                         <th>Expiration Date</th>
                         <th>Surplus</th>
                             <% if ("consumer".equals(roleName)) { %>
-                        <th>Claim</th>
-                            <% } else if ("charitable_organization".equals(roleName)) { %>
                         <th>Purchase</th>
+                            <% } else if ("charitable_organization".equals(roleName)) { %>
+                        <th>Claim</th>
                             <% } %>
+                         <th>Action</th>
                     </tr>
                 </thead>
                 <tbody>
                     <% List<InventoryResult> inventory = (List<InventoryResult>) session.getAttribute("inventory");
                         if (inventory != null && !inventory.isEmpty()) {
                             for (InventoryResult item : inventory) {%>
+                      <form id="updateItemForm" action="../PurchaseOrClaimFoodServlet" method="post">
                     <tr>
-                        <td><%= item.getFoodName()%></td>
+                        <td> 
+                               <input type="hidden" name="itemId" value="<%= item.getId() %>">
+                           </td>
+                        <td id="foodName" name="foodName"><%= item.getFoodName()%></td>
                         <td><%= item.getFoodStatus()%></td>
                         <td><%= item.getQuantity()%></td>
                         <% if ("consumer".equals(roleName)) {%>
@@ -258,12 +268,22 @@ document.getElementById('closeUpdatePopupBtn').addEventListener('click', functio
                         <% }%>
                         <td><%= item.getExpirationDate()%></td>
                         <td><%= item.isSurplus()%></td>
-                        <% if ("consumer".equals(roleName)) { %>
-                        <td><button>Claim</button></td>
-                        <% } else if ("charitable_organization".equals(roleName)) { %>
-                        <td><button>Purchase</button></td>
+                 
+                          <td>  <input type="number" id="quantityOrder" name="quantityOrder" placeholder="Enter quantity" required> 
+                          </td>
+                          
+                             <% if ("charitable_organization".equals(roleName)) { %>
+                        <td><button class="orderItemBtn2">Claim</button></td>
+                        <% } else if ("consumer".equals(roleName)) { %>
+                        <td><button class="orderItemBtn">Purchase</button></td>
                         <% } %>
+                        
+                             
+                          
+                          </td>
                     </tr>
+                    
+                     </form>
                     <%     }
                     } else { %>
                     <tr>
@@ -272,7 +292,11 @@ document.getElementById('closeUpdatePopupBtn').addEventListener('click', functio
                     <% } %>
                 </tbody>
             </table>
+                                  
+    
             <% }%>
         </div>
     </body>
 </html>
+
+                  

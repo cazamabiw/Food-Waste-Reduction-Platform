@@ -16,5 +16,7 @@ public interface UserDao extends Dao<User> {
    boolean isEmailInUse(String email);
   
      List<User> getUsersSubscribedToSurplusFoodAlerts();
+     
+     void setIsNotify(int userId,boolean isNotify);
 
 }

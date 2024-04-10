@@ -7,6 +7,7 @@ package com.fwrp.datatier.businesslayer;
 import com.fwrp.datatier.dao.InventoryDao;
 import com.fwrp.datatier.dao.InventoryDaoImpl;
 import com.fwrp.datatier.dao.InventoryHistoryDao;
+import com.fwrp.datatier.dao.InventoryHistoryDaoImpl;
 import com.fwrp.models.Inventory;
 import com.fwrp.models.InventoryHistory;
 import com.fwrp.utilities.DateTimeService;
@@ -14,6 +15,7 @@ import com.fwrp.utilities.InventoryResult;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  *
@@ -29,6 +31,7 @@ public class InventoryManager {
 
         notificationManager = new NotificationManager();
         inventoryDao = new InventoryDaoImpl();
+        inventoryHistoryDao = new InventoryHistoryDaoImpl();
 
     }
 
@@ -44,9 +47,7 @@ public class InventoryManager {
             // Get the current inventory from the database before updating
             Inventory currentInventory = inventoryDao.get(inventory.getId());
 
-            // Update the inventory in the database
-            inventoryDao.update(inventory);
-
+      
             // Check if quantity has changed
             int quantityChange = inventory.getQuantity() - currentInventory.getQuantity();
             if (quantityChange != 0) {
@@ -75,6 +76,8 @@ public class InventoryManager {
                 //send notification to user who subscribe
                 notificationManager.getUserSubscribeSurplusFoodAlerts(inventory.getUserId(), inventory.getFoodItemId());
             }
+      // Update the inventory in the database
+            inventoryDao.update(inventory);
 
         } catch (Exception ex) {
             // Handle exception appropriately
@@ -97,8 +100,22 @@ public class InventoryManager {
 
     //consumer, charitableOrganization
     //view surplus
-    public List<InventoryResult> getSurplusInventory() {
-        return inventoryDao.getIsSurplusDataWithDetail();
+    public List<InventoryResult> getSurplusInventory(String roleName) {
+        List<InventoryResult> data = inventoryDao.getIsSurplusDataWithDetail();
+          if ("charitable_organization".equals(roleName)) {
+             data = data.stream()
+    .filter(f -> f.getDiscountedPrice() == 0.0)
+    .collect(Collectors.toList());
+        } else if ("consumer".equals(roleName)) {
+             data = data.stream()
+    .filter(f -> f.getDiscountedPrice() > 0.0)
+    .collect(Collectors.toList());
+        }
+
+    
+    
+  
+        return data;
     }
 
     //claim  ,buy  and keep log 
@@ -121,7 +138,7 @@ public class InventoryManager {
 
             // Log the action in the inventory history
             InventoryHistory inventoryLog = new InventoryHistory();
-            inventoryLog.setInventoryId(userId);
+            inventoryLog.setRecipientId(userId);
             inventoryLog.setQuantity(quantityChange); //can be positive /negative number
             inventoryLog.setAction(actionType);
             inventoryLog.setDateModified(DateTimeService.getCurrentUtcDateTime());

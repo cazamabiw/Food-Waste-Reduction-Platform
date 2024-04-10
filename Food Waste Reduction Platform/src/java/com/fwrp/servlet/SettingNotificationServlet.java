@@ -5,17 +5,12 @@
 package com.fwrp.servlet;
 
 import com.fwrp.datatier.controller.InventoryController;
-import com.fwrp.models.Inventory;
+import com.fwrp.datatier.controller.UserSettingController;
 import com.fwrp.models.Retailer;
 import com.fwrp.models.User;
-import com.fwrp.utilities.DateTimeService;
-import com.fwrp.utilities.InventoryResult;
+import com.fwrp.models.UserNotificationSetting;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -26,8 +21,8 @@ import javax.servlet.http.HttpSession;
  *
  * @author cazam
  */
-public class AddItemServlet extends HttpServlet {
-
+public class SettingNotificationServlet extends HttpServlet {
+      private final UserSettingController userSettingController = new UserSettingController();
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -37,8 +32,6 @@ public class AddItemServlet extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-     
-      private final InventoryController inventoryController = new InventoryController();
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
@@ -47,10 +40,10 @@ public class AddItemServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet AddItemServlet</title>");            
+            out.println("<title>Servlet SettingNotificationServlet</title>");            
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet AddItemServlet at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet SettingNotificationServlet at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -69,7 +62,6 @@ public class AddItemServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         processRequest(request, response);
-     
     }
 
     /**
@@ -83,55 +75,31 @@ public class AddItemServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
-            HttpSession session = request.getSession();
-        Retailer currentUser = (Retailer) session.getAttribute("currentUser");
+             HttpSession session = request.getSession();
+        String isEmailValue = request.getParameter("isEmail");
+          String isSMSValue = request.getParameter("isSms");
         
         
 
-  int quantity = Integer.parseInt(request.getParameter("quantity"));
+ 
 
-   int itemId = Integer.parseInt(request.getParameter("foodItemId"));
-
-    double price = Double.parseDouble(request.getParameter("price"));
-   int foodStatusId = Integer.parseInt(request.getParameter("foodStatusId")); // Assuming foodStatus is an integer
-
-   String expirationDateString = request.getParameter("expirationDate");
-    Date expirationDate = null;  
-    try {
-    expirationDate = new SimpleDateFormat("yyyy-MM-dd").parse(expirationDateString);
-} catch (ParseException e) {
-    // Handle invalid date format
-    e.printStackTrace();
-}
-////
-    Inventory inventory = new Inventory();
-    inventory.setUserId(currentUser.getUserId());
-       inventory.setUserId(currentUser.getUserId());
-       inventory.setPrice(price);
-       inventory.setExpirationDate(expirationDate);
-       inventory.setFoodStatusId(foodStatusId);
-       inventory.setQuantity(quantity);
-       inventory.setFoodItemId(itemId);
-      inventory.setLastUpdated(DateTimeService.getCurrentUtcDateTime());
-
-    inventoryController.addInventory(inventory);
-
-//// Set inventory data in session
-//List<InventoryResult> inventoryList = inventoryController.getInventoryByRetailerId(currentUser.getUserId());
-//session.setAttribute("inventory", inventoryList);
-//
-//// Forward the request to the JSP page
-//request.getRequestDispatcher("../views/inventory.jsp").forward(request, response);
-
-
-     List<InventoryResult>  inventorys = inventoryController.getInventoryByRetailerId(currentUser.getUserId());
+boolean isEmail = (isEmailValue != null && isEmailValue.equals("on"));
+boolean isSMS = (isSMSValue != null && isSMSValue.equals("on"));
+    User currentUser = (User) session.getAttribute("currentUser");
     
-    // Set inventory data in session attribute
-    session.setAttribute("inventory", inventorys);
-   
-response.sendRedirect("/Food_Waste_Reduction_Platform/views/inventory.jsp");
-//response.sendRedirect("inventory.jsp");
+   //  String roleName = (String) session.getAttribute("roleName");
+    UserNotificationSetting setting = new UserNotificationSetting();
+    setting.setEmail(isEmail);
+    setting.setPhone(isSMS);
+    setting.setUserId(currentUser.getUserId());
+
+        
+userSettingController.updateUserNotificationSetting(setting);
+
+   UserNotificationSetting notisetting =             userSettingController.getUserNotificationSetting(currentUser.getUserId());
+                   session.setAttribute("notisetting", notisetting);
+         response.sendRedirect("/Food_Waste_Reduction_Platform/views/usernotificationsetting.jsp");
+
     }
 
     /**

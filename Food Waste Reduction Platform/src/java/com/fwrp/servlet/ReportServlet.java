@@ -3,31 +3,29 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
 package com.fwrp.servlet;
-
-import com.fwrp.datatier.controller.InventoryController;
-import com.fwrp.models.Inventory;
-import com.fwrp.models.Retailer;
-import com.fwrp.models.User;
-import com.fwrp.utilities.DateTimeService;
-import com.fwrp.utilities.InventoryResult;
+//import org.apache.pdfbox.pdmodel.*;
+//import org.apache.pdfbox.pdmodel.font.*;
+//import org.apache.pdfbox.pdmodel.PDPageContentStream;
+//import org.apache.pdfbox.pdmodel.font.PDType1Font;
+import com.fwrp.datatier.controller.ReportController;
+import com.fwrp.datatier.dto.InventoryHistoryDetailDTO;
+import com.fwrp.datatier.dto.InventorySummaryReportDTO;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 /**
  *
  * @author cazam
  */
-public class AddItemServlet extends HttpServlet {
-
+public class ReportServlet extends HttpServlet {
+     private final ReportController reportController = new ReportController();
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -37,8 +35,6 @@ public class AddItemServlet extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-     
-      private final InventoryController inventoryController = new InventoryController();
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
@@ -47,10 +43,10 @@ public class AddItemServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet AddItemServlet</title>");            
+            out.println("<title>Servlet ReportServlet</title>");            
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet AddItemServlet at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet ReportServlet at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -69,7 +65,6 @@ public class AddItemServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         processRequest(request, response);
-     
     }
 
     /**
@@ -83,55 +78,42 @@ public class AddItemServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+             Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.DAY_OF_MONTH, 1); // Set the day of the month to 1 (start of the month)
+        Date startDate = calendar.getTime(); // Start date is the 1st day of the current month
 
-            HttpSession session = request.getSession();
-        Retailer currentUser = (Retailer) session.getAttribute("currentUser");
-        
-        
+        // Move to the next month
+        calendar.add(Calendar.MONTH, 1);
+        calendar.add(Calendar.DATE, -1); // Move back one day to get the last day of the current month
+        Date endDate = calendar.getTime(); // End date is the last day of the current month
 
-  int quantity = Integer.parseInt(request.getParameter("quantity"));
-
-   int itemId = Integer.parseInt(request.getParameter("foodItemId"));
-
-    double price = Double.parseDouble(request.getParameter("price"));
-   int foodStatusId = Integer.parseInt(request.getParameter("foodStatusId")); // Assuming foodStatus is an integer
-
-   String expirationDateString = request.getParameter("expirationDate");
-    Date expirationDate = null;  
-    try {
-    expirationDate = new SimpleDateFormat("yyyy-MM-dd").parse(expirationDateString);
-} catch (ParseException e) {
-    // Handle invalid date format
-    e.printStackTrace();
-}
-////
-    Inventory inventory = new Inventory();
-    inventory.setUserId(currentUser.getUserId());
-       inventory.setUserId(currentUser.getUserId());
-       inventory.setPrice(price);
-       inventory.setExpirationDate(expirationDate);
-       inventory.setFoodStatusId(foodStatusId);
-       inventory.setQuantity(quantity);
-       inventory.setFoodItemId(itemId);
-      inventory.setLastUpdated(DateTimeService.getCurrentUtcDateTime());
-
-    inventoryController.addInventory(inventory);
-
-//// Set inventory data in session
-//List<InventoryResult> inventoryList = inventoryController.getInventoryByRetailerId(currentUser.getUserId());
-//session.setAttribute("inventory", inventoryList);
+//        
+      
+            InventorySummaryReportDTO  report = reportController.generateSummaryReport( startDate,  endDate) ;
+            // Generate PDF
+//    PDDocument document = new PDDocument();
+//    PDPage page = new PDPage();
+//    document.addPage(page);
 //
-//// Forward the request to the JSP page
-//request.getRequestDispatcher("../views/inventory.jsp").forward(request, response);
-
-
-     List<InventoryResult>  inventorys = inventoryController.getInventoryByRetailerId(currentUser.getUserId());
-    
-    // Set inventory data in session attribute
-    session.setAttribute("inventory", inventorys);
-   
-response.sendRedirect("/Food_Waste_Reduction_Platform/views/inventory.jsp");
-//response.sendRedirect("inventory.jsp");
+//    try (PDPageContentStream contentStream = new PDPageContentStream(document, page)) {
+//        contentStream.beginText();
+//        contentStream.setFont(PDType1Font.HELVETICA_BOLD, 12);
+//        contentStream.newLineAtOffset(100, 700);
+//        contentStream.showText("Inventory Summary Report");
+//        contentStream.endText();
+//
+//        // Add more text and data from the report to the content stream
+//
+//        contentStream.close();
+//    }
+//
+//    // Save PDF to output stream
+//    response.setContentType("application/pdf");
+//    response.setHeader("Content-Disposition", "attachment; filename=inventory_summary_report.pdf");
+//    document.save(response.getOutputStream());
+//
+//    // Close the document
+//    document.close();
     }
 
     /**
