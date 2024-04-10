@@ -9,9 +9,25 @@
         <servlet-name>LoginServlet</servlet-name>
         <servlet-class>com.fwrp.servlet.LoginServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>InventoryServlet</servlet-name>
+        <servlet-class>com.fwrp.servlet.InventoryServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>AddItemServlet</servlet-name>
+        <servlet-class>com.fwrp.servlet.AddItemServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>LoginServlet</servlet-name>
         <url-pattern>/LoginServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>InventoryServlet</servlet-name>
+        <url-pattern>/InventoryServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AddItemServlet</servlet-name>
+        <url-pattern>/AddItemServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

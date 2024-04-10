@@ -4,14 +4,24 @@
  */
 package com.fwrp.servlet;
 
+import com.fwrp.datatier.controller.InventoryController;
 import com.fwrp.datatier.controller.UserController;
+import com.fwrp.models.CharitableOrganization;
+import com.fwrp.models.Consumer;
+import com.fwrp.models.Inventory;
+import com.fwrp.models.Retailer;
+import com.fwrp.models.User;
+import com.fwrp.utilities.InventoryResult;
 import com.fwrp.utilities.LoginResult;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -29,6 +39,7 @@ public class LoginServlet extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
      private final UserController userController = new UserController();
+      private final InventoryController inventoryController = new InventoryController();
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
@@ -79,7 +90,60 @@ public class LoginServlet extends HttpServlet {
       
         if (loginResult.isSuccess() == true) {
             // Redirect to success page
-            response.sendRedirect("/Food_Waste_Reduction_Platform/views/inventory.jsp");
+              HttpSession session = request.getSession();
+       // session.setAttribute("userId", loginResult.getUserId());
+          
+        //int userId = (int) request.getSession().getAttribute("userId");
+
+        User currentUser = userController.getCurrentUser(loginResult.getUserId());
+        if (currentUser != null) {
+            if (currentUser instanceof Retailer) {
+                Retailer retailerUser = (Retailer) currentUser;
+
+                session.setAttribute("currentUser", retailerUser);
+                // Handle retailer-specific actions
+            } else if (currentUser instanceof Consumer) {
+                Consumer consumerUser = (Consumer) currentUser;
+                session.setAttribute("currentUser", consumerUser);
+
+            } else if (currentUser instanceof CharitableOrganization) {
+                CharitableOrganization charitableOrganization = (CharitableOrganization) currentUser;
+
+                session.setAttribute("currentUser", charitableOrganization);
+
+            }
+
+            if (currentUser != null) {
+                // Get the role of the current user
+                String roleName = userController.getRoleByUserId(loginResult.getUserId()).getRoleName();
+                session.setAttribute("roleName", roleName);
+                // Call different methods based on the user's role
+                   if(roleName.equalsIgnoreCase("retailer")){
+        List<InventoryResult> inventory = inventoryController.getInventoryByRetailerId(loginResult.getUserId());
+    
+    // Set inventory data in session attribute
+    session.setAttribute("inventory", inventory);
+                   }
+                   else if(roleName.equalsIgnoreCase("consumer") || roleName.equalsIgnoreCase("charitable_organization") )
+                   {
+                             List<InventoryResult> inventory = inventoryController.getSurplusInventory();
+    
+    // Set inventory data in session attribute
+    session.setAttribute("inventory", inventory);
+                   }
+                }
+
+            } else {
+                // Redirect to login page if user is not logged in
+                response.sendRedirect("login.jsp");
+            }
+        
+        
+       //  RequestDispatcher dispatcher = request.getRequestDispatcher("InventoryServlet");
+      //  dispatcher.forward(request, response);
+  
+          response.sendRedirect("/Food_Waste_Reduction_Platform/views/inventory.jsp");
+           
         } else {
             // Redirect to login page with error message
           response.sendRedirect("views/login.jsp?error=" + loginResult.getMessage());
