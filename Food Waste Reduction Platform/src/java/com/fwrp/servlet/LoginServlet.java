@@ -6,8 +6,10 @@ package com.fwrp.servlet;
 
 import com.fwrp.datatier.controller.FoodController;
 import com.fwrp.datatier.controller.InventoryController;
+import com.fwrp.datatier.controller.ReportController;
 import com.fwrp.datatier.controller.UserController;
 import com.fwrp.datatier.controller.UserSettingController;
+import com.fwrp.datatier.dto.InventorySummaryReportDTO;
 import com.fwrp.datatier.dto.UserFoodPreferenceDTO;
 import com.fwrp.models.CharitableOrganization;
 import com.fwrp.models.Consumer;
@@ -21,6 +23,8 @@ import com.fwrp.utilities.InventoryResult;
 import com.fwrp.utilities.LoginResult;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -47,7 +51,9 @@ public class LoginServlet extends HttpServlet {
      private final UserController userController = new UserController();
           private final FoodController foodController = new FoodController();
               private final UserSettingController userSettingController = new UserSettingController();
-      private final InventoryController inventoryController = new InventoryController();
+      private final InventoryController inventoryController = new InventoryController(); 
+      
+      private final ReportController reportController = new ReportController();
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
@@ -156,6 +162,20 @@ public class LoginServlet extends HttpServlet {
                     UserNotificationSetting notisetting =             userSettingController.getUserNotificationSetting(loginResult.getUserId());
                    session.setAttribute("notisetting", notisetting);
             
+                   
+                                Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.DAY_OF_MONTH, 1); // Set the day of the month to 1 (start of the month)
+        Date startDate = calendar.getTime(); // Start date is the 1st day of the current month
+
+        // Move to the next month
+        calendar.add(Calendar.MONTH, 1);
+        calendar.add(Calendar.DATE, -1); // Move back one day to get the last day of the current month
+        Date endDate = calendar.getTime(); // End date is the last day of the current month
+
+//        
+      
+            InventorySummaryReportDTO  report = reportController.generateSummaryReport( startDate,  endDate) ;
+             session.setAttribute("reportCurrentMonthly", report);
             }
 
             } else {
