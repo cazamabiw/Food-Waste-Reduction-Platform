@@ -6,7 +6,7 @@
 <title>User Registration</title>
  <link rel="stylesheet" type="text/css" href="../css/register.css">
 <style>
-
+/* Your existing CSS styles */
 
 #storeFields,
 #consumerFields,
@@ -18,9 +18,7 @@
 <body>
 <div class="register-container">
     <h2>User Registration</h2>
-  
      <form action="../RegisterServlet" method="post">
-
     <div class="input-group">
         <label for="userType">User Type:</label>
       <select id="userType" name="userType" onchange="showFields()">
@@ -81,7 +79,6 @@
         <label for="postalCode">Postal Code:</label>
         <input type="text" id="postalCode" name="postalCode" required>
     </div>
-    </form>
     <button type="submit" class="btn">Register</button>
      </form>
        <p>Already have an account? <a href="login.jsp">Login here</a></p>
@@ -114,19 +111,6 @@ function showFields() {
         charitableFields.style.display = "block";
     }
 }
-
-function showMessage() {
-    var registrationSuccess = '${registrationSuccess}';
-    if (registrationSuccess) {
-        alert('Registration successful! You can now login.');
-        console.log('${registrationSuccess}');
-    }
-}
-
-document.addEventListener('DOMContentLoaded', function() {
-    showMessage();
-});
-
 </script>
 </body>
 </html>
