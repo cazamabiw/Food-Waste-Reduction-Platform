@@ -29,4 +29,8 @@ public class FoodController {
     public List<FoodStatus> getFoodStatuses() {
          return foodManager.getFoodStatuses();
     }
+    
+        public FoodItem getFoodItemByName(String foodItemName) {
+             return foodManager.getFoodItemByName(foodItemName);
+        }
 }

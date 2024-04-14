@@ -24,15 +24,15 @@ public class UserNotificationSettingDaolmpl  implements UserNotificationSettingD
 @Override
 public UserNotificationSetting get(int id) {
     try (Connection connection = dataSource.getConnection()) {
-        String sql = "SELECT * FROM user_notification_settings WHERE user_id = ?";
+        String sql = "SELECT * FROM user_notfication_settings  WHERE user_id = ?";
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setInt(1, id);
             try (ResultSet resultSet = statement.executeQuery()) {
                 if (resultSet.next()) {
                     UserNotificationSetting setting = new UserNotificationSetting();
                     setting.setUserId(resultSet.getInt("user_id"));
-                    setting.setEmail(resultSet.getBoolean("email_enabled"));
-                    setting.setPhone(resultSet.getBoolean("sms_enabled"));
+                    setting.setEmail(resultSet.getBoolean("is_email"));
+                    setting.setPhone(resultSet.getBoolean("is_phone"));
                     // Set other properties as needed
                     return setting;
                 }
